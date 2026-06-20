@@ -1,0 +1,430 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:balansing/screens/Ibu/Quiz/ibu_quiz_managerI_screen.dart'; 
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:balansing/services/ibu_services.dart'; 
+import 'package:provider/provider.dart';
+import 'package:balansing/providers/IbuProvider.dart';
+import 'package:balansing/models/user_model.dart';
+
+class IbuQuizResultScreen extends StatefulWidget {
+  const IbuQuizResultScreen({super.key});
+
+  @override
+  State<IbuQuizResultScreen> createState() => _IbuQuizResultScreenState();
+}
+
+class _IbuQuizResultScreenState extends State<IbuQuizResultScreen> {
+  final QuizScoreManager _scoreManager = QuizScoreManager();
+  late int sanitasi;
+  String _activeButton = 'Rekomendasi';
+  bool _isLoading = true;
+
+  String markdownRekomendasi = """
+Rekomendasi Gagal - Error Server
+""";
+
+  String markdownArtikel = """
+## Pentingnya Gizi Seimbang untuk Anak
+Gizi seimbang adalah kunci utama untuk memastikan anak tumbuh optimal. Kekurangan nutrisi bisa menyebabkan berbagai masalah kesehatan, termasuk stunting dan anemia.
+
+1. **Karbohidrat**: Sumber energi utama bagi anak.
+2. **Protein**: Penting untuk membangun dan memperbaiki jaringan tubuh.
+3. **Zat Besi**: Mencegah anemia, yang dapat mengganggu konsentrasi dan energi anak.
+4. **Vitamin dan Mineral**: Mendukung sistem kekebalan tubuh dan fungsi organ.
+
+## Kenali Tanda-tanda Awal Stunting
+Stunting sering kali sulit dideteksi tanpa pengukuran yang tepat. Namun, ada beberapa tanda awal yang bisa diperhatikan:
+* Tinggi badan di bawah rata-rata.
+* Perkembangan motorik yang lambat.
+* Sering sakit.
+
+Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan dengan dokter.
+""";
+
+  @override
+  void initState() {
+    super.initState();
+    sanitasi = _scoreManager.totalScore;
+    print(sanitasi);
+    print(_scoreManager.ReturnQuiz());
+    _loadSanitasiRekomendasi();
+  }
+
+  Future<void> _loadSanitasiRekomendasi() async {
+    try {
+      final quizHistory = _scoreManager.ReturnQuiz();
+      print(quizHistory);
+      final IbuServices _ibuServices = IbuServices();
+
+      final result = await _ibuServices.generateSanitasi(quizHistory);
+
+      setState(() {
+        markdownRekomendasi = result["rekomendasi"] ?? "Gagal memuat rekomendasi sanitasi.";
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        markdownRekomendasi = "Terjadi kesalahan: $e";
+        _isLoading = false;
+        final String userId = User.instance.email;
+        Provider.of<ProfileProvider>(context, listen: false).fetchDaftarAnak(userId);
+      });
+    }
+  }
+
+  Widget buildButton(String buttonText, String activeState) {
+    double width = MediaQuery.of(context).size.width;
+    final bool isActive = _activeButton == activeState;
+    final Color activeColor = const Color(0xFFF4F9EC);
+    final Color inactiveColor = const Color.fromARGB(0, 226, 232, 240);
+    final Color activeTextColor = const Color(0xFF64748B);
+    final Color inactiveTextColor = const Color(0xFF64748B);
+    final Color activeBorderColor = const Color(0xFF76A73B);
+    final Color inactiveBorderColor = const Color(0xFFE2E8F0);
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _activeButton = activeState;
+        });
+      },
+      child: Container(
+        width: width * 0.36,
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          color: isActive ? activeColor : inactiveColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isActive ? activeBorderColor : inactiveBorderColor,
+            width: 1.0,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          buttonText,
+          style: TextStyle(
+            color: isActive ? activeTextColor : inactiveTextColor,
+            fontWeight: FontWeight.bold,
+            fontSize: width * 0.03,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildResultCard({
+    required String title,
+    required String status,
+    required String description,
+    required Color statusColor,
+    required String imagePath,
+    required double width,
+    required double height,
+  }) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 255, 255, 255),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 2),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            imagePath,
+            width: width * 0.1,
+            height: width * 0.1,
+          ),
+          SizedBox(width: width * 0.01),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    fontSize: width * 0.04,
+                    fontWeight: FontWeight.w600,
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ),
+                SizedBox(height: height * 0.005),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: statusColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    status,
+                    style: GoogleFonts.poppins(
+                      fontSize: width * 0.03,
+                      fontWeight: FontWeight.w500,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  ),
+                ),
+                SizedBox(height: height * 0.005),
+                Text(
+                  description,
+                  style: GoogleFonts.poppins(
+                    fontSize: width * 0.03,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFF64748B),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    String statusResult;
+    String descriptionResult;
+    Color statusColorResult;
+    String imagePathResult;
+
+    if (sanitasi >= 9) {
+      statusResult = "Baik";
+      descriptionResult = "Kebiasaan sanitasi keluarga Bunda sudah sangat baik! Terus pertahankan agar kesehatan keluarga selalu terjaga.";
+      statusColorResult = const Color(0xFF9FC86A);
+      imagePathResult = "assets/images/FineIcon.png";
+    } else if (sanitasi >= 7 && sanitasi <= 8) {
+      statusResult = "Waspada";
+      descriptionResult = "Kebiasaan sanitasi keluarga Bunda perlu ditingkatkan. Ada beberapa aspek yang bisa diperbaiki untuk mencegah penyakit.";
+      statusColorResult = const Color(0xFFFACC15);
+      imagePathResult = "assets/images/WarningIcon.png";
+    } else {
+      statusResult = "Buruk";
+      descriptionResult = "Kebiasaan sanitasi keluarga Bunda sangat perlu perhatian. Segera terapkan kebiasaan baru untuk mencegah dampak buruk pada kesehatan.";
+      statusColorResult = const Color(0xFFDC2626);
+      imagePathResult = "assets/images/DangerIcon.png";
+    }
+
+    // Gunakan WillPopScope untuk mencegah back button
+    return WillPopScope(
+      onWillPop: () async {
+        // Jika masih loading, tidak bisa keluar
+        if (_isLoading) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Mohon tunggu, sedang memuat rekomendasi...',
+                style: GoogleFonts.poppins(),
+              ),
+              duration: const Duration(seconds: 2),
+              backgroundColor: const Color(0xFF76A73B),
+            ),
+          );
+          return false; // Mencegah pop
+        }
+        return true; // Izinkan pop jika sudah selesai loading
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                  width: double.infinity,
+                  height: height * 0.15,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF8FAFC),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(18),
+                      bottomRight: Radius.circular(18),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(68, 158, 158, 158),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: height*0.02,),
+                      Text(
+                        "Hai Bunda!",
+                        style: GoogleFonts.poppins(
+                          fontSize: width * 0.07,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF76A73B),
+                        ),
+                      ),
+                      Text(
+                        "Ini dia hasil dari rapor kebiasaan sehat untuk si Kecil.",
+                        style: GoogleFonts.poppins(
+                          fontSize: width * 0.025,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF64748B),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.transparent,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Hasil Penilaian",
+                        style: GoogleFonts.poppins(
+                            fontSize: width * 0.045, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: height * 0.01),
+                      _buildResultCard(
+                        title: "Kebersihan Sanitasi",
+                        status: statusResult,
+                        description: descriptionResult,
+                        statusColor: statusColorResult,
+                        imagePath: imagePathResult,
+                        width: width,
+                        height: height,
+                      ),
+                      SizedBox(height: height * 0.02,),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                buildButton("Rekomendasi", "Rekomendasi"),
+                                buildButton("Artikel", "Artikel"),
+                              ],
+                            ),
+                            SizedBox(height: height * 0.02),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: _activeButton == 'Rekomendasi'
+                                  ? _isLoading
+                                      ? Center(
+                                          child: Column(
+                                            children: [
+                                              const CircularProgressIndicator(
+                                                color: Color(0xFF76A73B),
+                                              ),
+                                              const SizedBox(height: 16),
+                                              Text(
+                                                'Memuat rekomendasi...',
+                                                style: GoogleFonts.poppins(
+                                                  color: const Color(0xFF64748B),
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : MarkdownBody(
+                                          data: markdownRekomendasi,
+                                          styleSheet: MarkdownStyleSheet(
+                                            h2: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.bold, fontSize: 18),
+                                            p: GoogleFonts.poppins(fontSize: 14),
+                                            listBullet: GoogleFonts.poppins(fontSize: 14),
+                                          ),
+                                        )
+                                  : MarkdownBody(
+                                      data: markdownArtikel,
+                                      styleSheet: MarkdownStyleSheet(
+                                        h2: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.bold, fontSize: 18),
+                                        p: GoogleFonts.poppins(fontSize: 14),
+                                        listBullet: GoogleFonts.poppins(fontSize: 14),
+                                      ),
+                                    ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: height * 0.02),
+                      Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _isLoading
+                              ? null // Disable button saat loading
+                              : () async {
+                                  Navigator.pop(context);
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: _isLoading 
+                                ? Colors.grey 
+                                : const Color(0xFF9FC86A),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            elevation: 0,
+                          ),
+                          child: Text(
+                            _isLoading ? "Memuat..." : "Selanjutnya",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: width * 0.035,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: height * 0.05),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
