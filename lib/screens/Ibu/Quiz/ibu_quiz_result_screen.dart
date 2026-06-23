@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:balansing/screens/Ibu/Quiz/ibu_quiz_managerI_screen.dart'; 
+import 'package:balansing/screens/Ibu/Quiz/ibu_quiz_managerI_screen.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:balansing/services/ibu_services.dart'; 
+import 'package:balansing/services/ibu_services.dart';
 import 'package:provider/provider.dart';
 import 'package:balansing/providers/IbuProvider.dart';
 import 'package:balansing/models/user_model.dart';
@@ -55,12 +55,13 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
     try {
       final quizHistory = _scoreManager.ReturnQuiz();
       print(quizHistory);
-      final IbuServices _ibuServices = IbuServices();
+      final IbuServices ibuServices = IbuServices();
 
-      final result = await _ibuServices.generateSanitasi(quizHistory);
+      final result = await ibuServices.generateSanitasi(quizHistory);
 
       setState(() {
-        markdownRekomendasi = result["rekomendasi"] ?? "Gagal memuat rekomendasi sanitasi.";
+        markdownRekomendasi =
+            result["rekomendasi"] ?? "Gagal memuat rekomendasi sanitasi.";
         _isLoading = false;
       });
     } catch (e) {
@@ -68,7 +69,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
         markdownRekomendasi = "Terjadi kesalahan: $e";
         _isLoading = false;
         final String userId = User.instance.email;
-        Provider.of<ProfileProvider>(context, listen: false).fetchDaftarAnak(userId);
+        Provider.of<ProfileProvider>(context, listen: false)
+            .fetchDaftarAnak(userId);
       });
     }
   }
@@ -131,7 +133,7 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -163,7 +165,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                 ),
                 SizedBox(height: height * 0.005),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
                     color: statusColor,
                     borderRadius: BorderRadius.circular(8),
@@ -206,17 +209,20 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
 
     if (sanitasi >= 9) {
       statusResult = "Baik";
-      descriptionResult = "Kebiasaan sanitasi keluarga Bunda sudah sangat baik! Terus pertahankan agar kesehatan keluarga selalu terjaga.";
+      descriptionResult =
+          "Kebiasaan sanitasi keluarga Bunda sudah sangat baik! Terus pertahankan agar kesehatan keluarga selalu terjaga.";
       statusColorResult = const Color(0xFF9FC86A);
       imagePathResult = "assets/images/FineIcon.png";
     } else if (sanitasi >= 7 && sanitasi <= 8) {
       statusResult = "Waspada";
-      descriptionResult = "Kebiasaan sanitasi keluarga Bunda perlu ditingkatkan. Ada beberapa aspek yang bisa diperbaiki untuk mencegah penyakit.";
+      descriptionResult =
+          "Kebiasaan sanitasi keluarga Bunda perlu ditingkatkan. Ada beberapa aspek yang bisa diperbaiki untuk mencegah penyakit.";
       statusColorResult = const Color(0xFFFACC15);
       imagePathResult = "assets/images/WarningIcon.png";
     } else {
       statusResult = "Buruk";
-      descriptionResult = "Kebiasaan sanitasi keluarga Bunda sangat perlu perhatian. Segera terapkan kebiasaan baru untuk mencegah dampak buruk pada kesehatan.";
+      descriptionResult =
+          "Kebiasaan sanitasi keluarga Bunda sangat perlu perhatian. Segera terapkan kebiasaan baru untuk mencegah dampak buruk pada kesehatan.";
       statusColorResult = const Color(0xFFDC2626);
       imagePathResult = "assets/images/DangerIcon.png";
     }
@@ -249,7 +255,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                   width: double.infinity,
                   height: height * 0.15,
                   decoration: const BoxDecoration(
@@ -271,7 +278,9 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: height*0.02,),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
                       Text(
                         "Hai Bunda!",
                         style: GoogleFonts.poppins(
@@ -293,7 +302,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                 ),
                 Container(
                   color: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,7 +311,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                       Text(
                         "Hasil Penilaian",
                         style: GoogleFonts.poppins(
-                            fontSize: width * 0.045, fontWeight: FontWeight.w600),
+                            fontSize: width * 0.045,
+                            fontWeight: FontWeight.w600),
                       ),
                       SizedBox(height: height * 0.01),
                       _buildResultCard(
@@ -313,10 +324,13 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                         width: width,
                         height: height,
                       ),
-                      SizedBox(height: height * 0.02,),
+                      SizedBox(
+                        height: height * 0.02,
+                      ),
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -336,10 +350,11 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+                                border: Border.all(
+                                    color: const Color(0xFFE2E8F0), width: 1),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
+                                    color: Colors.grey.withValues(alpha: 0.1),
                                     spreadRadius: 1,
                                     blurRadius: 5,
                                     offset: const Offset(0, 3),
@@ -358,7 +373,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                                               Text(
                                                 'Memuat rekomendasi...',
                                                 style: GoogleFonts.poppins(
-                                                  color: const Color(0xFF64748B),
+                                                  color:
+                                                      const Color(0xFF64748B),
                                                   fontSize: 14,
                                                 ),
                                               ),
@@ -369,18 +385,23 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                                           data: markdownRekomendasi,
                                           styleSheet: MarkdownStyleSheet(
                                             h2: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.bold, fontSize: 18),
-                                            p: GoogleFonts.poppins(fontSize: 14),
-                                            listBullet: GoogleFonts.poppins(fontSize: 14),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                            p: GoogleFonts.poppins(
+                                                fontSize: 14),
+                                            listBullet: GoogleFonts.poppins(
+                                                fontSize: 14),
                                           ),
                                         )
                                   : MarkdownBody(
                                       data: markdownArtikel,
                                       styleSheet: MarkdownStyleSheet(
                                         h2: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.bold, fontSize: 18),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
                                         p: GoogleFonts.poppins(fontSize: 14),
-                                        listBullet: GoogleFonts.poppins(fontSize: 14),
+                                        listBullet:
+                                            GoogleFonts.poppins(fontSize: 14),
                                       ),
                                     ),
                             ),
@@ -388,7 +409,7 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                         ),
                       ),
                       SizedBox(height: height * 0.02),
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: _isLoading
@@ -397,8 +418,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                                   Navigator.pop(context);
                                 },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: _isLoading 
-                                ? Colors.grey 
+                            backgroundColor: _isLoading
+                                ? Colors.grey
                                 : const Color(0xFF9FC86A),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),

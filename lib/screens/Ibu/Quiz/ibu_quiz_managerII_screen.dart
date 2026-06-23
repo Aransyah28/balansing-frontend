@@ -10,7 +10,8 @@ class QuizScoreManager {
   final List<String> _answerHistory = [];
   int _score = 0;
 
-  void addAnswerHistory({required String question, required String userAnswer}) {
+  void addAnswerHistory(
+      {required String question, required String userAnswer}) {
     // Implementasi untuk menyimpan riwayat jawaban
     _answerHistory.add('Pertanyaan: $question, Jawaban: $userAnswer');
     print('Riwayat Jawaban Ditambahkan: $_answerHistory');
@@ -84,7 +85,8 @@ class _IbuQuizManagerIIScreenState extends State<IbuQuizManagerIIScreen> {
             LinearProgressIndicator(
               value: 2 / 9,
               backgroundColor: const Color(0xFFF1F5F9),
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFB1D581)),
+              valueColor:
+                  const AlwaysStoppedAnimation<Color>(Color(0xFFB1D581)),
               minHeight: height * 0.012,
               borderRadius: BorderRadius.circular(10),
             ),
@@ -94,9 +96,9 @@ class _IbuQuizManagerIIScreenState extends State<IbuQuizManagerIIScreen> {
               style: GoogleFonts.poppins(
                   fontSize: width * 0.045, fontWeight: FontWeight.w600),
             ),
-            
+
             // --- Bagian Opsi Tombol ---
-            
+
             SizedBox(height: height * 0.02),
             QuizOptionButton(
               label: '(A) 0 - 2 Juta Rupiah',
@@ -158,7 +160,8 @@ class _IbuQuizManagerIIScreenState extends State<IbuQuizManagerIIScreen> {
                           width: 2.0,
                         ),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
                       backgroundColor: Colors.white,
                     ),
                     child: Row(
@@ -187,28 +190,32 @@ class _IbuQuizManagerIIScreenState extends State<IbuQuizManagerIIScreen> {
                             print('Selanjutnya');
                             // Menambahkan skor
                             _scoreManager.addScore(_selectedOption ?? 0);
-                            
+
                             // Mendapatkan jawaban yang benar dari daftar
-                            String selectedAnswer = _answerDescriptions[_selectedOption!];
+                            String selectedAnswer =
+                                _answerDescriptions[_selectedOption!];
 
                             // Menyimpan riwayat jawaban dengan nilai yang benar
                             _scoreManager.addAnswerHistory(
-                                question: "Penghasilan Keluarga",
-                                userAnswer: selectedAnswer,
+                              question: "Penghasilan Keluarga",
+                              userAnswer: selectedAnswer,
                             );
-                            
+
                             // Navigasi ke layar berikutnya
                             Navigator.pop(context);
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const IbuQuizManagerIIIScreen()),
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const IbuQuizManagerIIIScreen()),
                             );
                           },
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
                       backgroundColor: _selectedOption == null
                           ? Colors.grey // Warna abu-abu jika dinonaktifkan
                           : const Color(0xFF9FC86A), // Warna hijau jika aktif
@@ -269,12 +276,13 @@ class QuizOptionButton extends StatelessWidget {
           color: isSelected ? const Color(0xFFF4F9EC) : Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? const Color(0xFFB1D581) : const Color(0xFFE2E8F0),
+            color:
+                isSelected ? const Color(0xFFB1D581) : const Color(0xFFE2E8F0),
             width: isSelected ? 2.0 : 1.0,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 5,
               offset: const Offset(0, 3),

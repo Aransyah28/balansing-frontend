@@ -42,9 +42,9 @@ class ChildCard extends StatefulWidget {
   final ChildData child;
 
   const ChildCard({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   State<ChildCard> createState() => _ChildCardState();
@@ -58,10 +58,9 @@ class _ChildCardState extends State<ChildCard> {
   void initState() {
     super.initState();
     // Set isStunting based on stuntingStatus
-    isStunting = widget.child.stuntingStatus == 'short' || widget.child.stuntingStatus == 'veryShort';
+    isStunting = widget.child.stuntingStatus == 'short' ||
+        widget.child.stuntingStatus == 'veryShort';
   }
-
-  
 
   Color get _statusColor {
     if (isStunting && widget.child.hasAnemia) {
@@ -96,7 +95,8 @@ class _ChildCardState extends State<ChildCard> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    isStunting = widget.child.stuntingStatus == 'Pendek' || widget.child.stuntingStatus == 'SangatPendek';
+    isStunting = widget.child.stuntingStatus == 'Pendek' ||
+        widget.child.stuntingStatus == 'SangatPendek';
 
     return Card(
       elevation: 0,
@@ -116,7 +116,7 @@ class _ChildCardState extends State<ChildCard> {
               padding: EdgeInsets.symmetric(
                   horizontal: width * 0.03, vertical: height * 0.015),
               decoration: BoxDecoration(
-                color: _statusColor.withOpacity(0.1),
+                color: _statusColor.withValues(alpha: 0.1),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(12),
                   topRight: Radius.circular(12),
@@ -136,7 +136,7 @@ class _ChildCardState extends State<ChildCard> {
                     padding: EdgeInsets.symmetric(
                         horizontal: width * 0.03, vertical: height * 0.005),
                     decoration: BoxDecoration(
-                      color: _statusColor.withOpacity(0.1),
+                      color: _statusColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -190,7 +190,8 @@ class _ChildCardState extends State<ChildCard> {
                             Icon(Icons.calendar_month,
                                 size: width * 0.04, color: Colors.grey),
                             SizedBox(width: width * 0.02),
-                            Text(widget.child.age, style: GoogleFonts.poppins()),
+                            Text(widget.child.age,
+                                style: GoogleFonts.poppins()),
                           ],
                         ),
                         SizedBox(height: height * 0.005),
@@ -199,7 +200,8 @@ class _ChildCardState extends State<ChildCard> {
                             Icon(Icons.person_outline,
                                 size: width * 0.04, color: Colors.grey),
                             SizedBox(width: width * 0.02),
-                            Text(widget.child.gender, style: GoogleFonts.poppins()),
+                            Text(widget.child.gender,
+                                style: GoogleFonts.poppins()),
                           ],
                         ),
                         SizedBox(height: height * 0.005),
@@ -227,10 +229,13 @@ class _ChildCardState extends State<ChildCard> {
                             onPressed: () async {
                               print('Button "Lihat Hasil" pressed!');
                               print(widget.child.id);
-                              await Navigator.push( // Await the push so you can refresh
+                              await Navigator.push(
+                                // Await the push so you can refresh
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => IbuCekIIScreen(id: widget.child.id, idAnak: widget.child.anakId),
+                                  builder: (context) => IbuCekIIScreen(
+                                      id: widget.child.id,
+                                      idAnak: widget.child.anakId),
                                 ),
                               );
                             },
@@ -256,7 +261,7 @@ class _ChildCardState extends State<ChildCard> {
                         padding: EdgeInsets.symmetric(
                             horizontal: width * 0.03, vertical: height * 0.005),
                         decoration: BoxDecoration(
-                          color: _statusColor.withOpacity(0.1),
+                          color: _statusColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -290,7 +295,9 @@ class _ChildCardState extends State<ChildCard> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          _isExpanded ? 'Sembunyikan informasi ^' : 'Tampilkan informasi v',
+                          _isExpanded
+                              ? 'Sembunyikan informasi ^'
+                              : 'Tampilkan informasi v',
                           style: GoogleFonts.poppins(
                             color: _isExpanded
                                 ? const Color(0xFFF96262)

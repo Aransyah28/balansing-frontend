@@ -22,7 +22,7 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
     showDialog(
       context: context,
       builder: (context) {
-        return FilterModalContent(); 
+        return FilterModalContent();
       },
     );
   }
@@ -30,7 +30,8 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
   @override
   void initState() {
     super.initState();
-    final riwayatProvider = Provider.of<RiwayatProvider>(context, listen: false);
+    final riwayatProvider =
+        Provider.of<RiwayatProvider>(context, listen: false);
     final filterModel = Provider.of<FilterModel>(context, listen: false);
 
     if (!filterModel.filter) {
@@ -53,7 +54,8 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
   }
 
   void _onSearchChanged() {
-    final riwayatProvider = Provider.of<RiwayatProvider>(context, listen: false);
+    final riwayatProvider =
+        Provider.of<RiwayatProvider>(context, listen: false);
     final filterModel = Provider.of<FilterModel>(context, listen: false);
 
     if (_searchController.text.isEmpty) {
@@ -70,7 +72,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
       riwayatProvider.searchChildren(_searchController.text);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -169,13 +170,14 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
               SizedBox(height: height * 0.01),
               Container(
                 width: width * 0.9,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF1F5F9),
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: Colors.grey.withValues(alpha: 0.2),
                       spreadRadius: 2,
                       blurRadius: 5,
                       offset: const Offset(0, 3),
@@ -239,20 +241,20 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                           thumbVisibility: false,
                           child: SingleChildScrollView(
                             child: Column(
-                              children: riwayatProvider.childrenData
-                                  .map((childData) {
+                              children:
+                                  riwayatProvider.childrenData.map((childData) {
                                 return ChildCard(
-                                  nama:
-                                      childData['nama'] ?? 'Nama Tidak Diketahui',
+                                  nama: childData['nama'] ??
+                                      'Nama Tidak Diketahui',
                                   usia: childData['usia'] ?? 0,
-                                  beratBadan:
-                                      (childData['beratBadan'] as num).toDouble(),
+                                  beratBadan: (childData['beratBadan'] as num)
+                                      .toDouble(),
                                   tinggiBadan: (childData['tinggiBadan'] as num)
                                       .toDouble(),
                                   anemia: childData['anemia'] ?? false,
                                   stunting: childData['stunting'] ?? false,
-                                  jenisKelamin:
-                                      childData['jenisKelamin'] ?? 'Tidak Diketahui',
+                                  jenisKelamin: childData['jenisKelamin'] ??
+                                      'Tidak Diketahui',
                                   id: childData['id'] ?? 'Tidak Diketahui',
                                 );
                               }).toList(),
@@ -271,7 +273,8 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
     );
   }
 
-  Widget _buildInfoRow(double width, double height, String label, String value) {
+  Widget _buildInfoRow(
+      double width, double height, String label, String value) {
     return SizedBox(
       width: width * 0.9,
       child: Row(

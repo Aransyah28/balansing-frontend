@@ -10,7 +10,6 @@ import 'package:balansing/screens/Ibu/Profile/ibu_informasi_screen.dart';
 import 'package:balansing/screens/Kader/Profile/kader_password_screen.dart';
 import 'package:provider/provider.dart';
 
-
 class IbuProfilScreen extends StatefulWidget {
   const IbuProfilScreen({super.key});
 
@@ -48,7 +47,8 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
     });
 
     try {
-      Map<String, dynamic> data = await _ibuServices.getIbu(User.instance.email);
+      Map<String, dynamic> data =
+          await _ibuServices.getIbu(User.instance.email);
 
       setState(() {
         _ibuProfileRawData = jsonEncode(data);
@@ -129,7 +129,7 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
                     ),
                   ),
                   Text(
-                    "Ibu dari ${_jumlahAnak} Anak",
+                    "Ibu dari $_jumlahAnak Anak",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       fontSize: height * 0.018,
@@ -141,7 +141,7 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               width: width * 0.9,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -156,11 +156,14 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () async { // Make it async to await the push
-                      final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+                    onPressed: () async {
+                      // Make it async to await the push
+                      final profileProvider =
+                          Provider.of<ProfileProvider>(context, listen: false);
                       profileProvider.fetchProfile(User.instance.email);
                       print("Informasi Dasar Page");
-                      await Navigator.push( // Await the push so you can refresh
+                      await Navigator.push(
+                        // Await the push so you can refresh
                         context,
                         MaterialPageRoute(
                           builder: (context) => const IbuInformasiScreen(),
@@ -174,7 +177,8 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(width: 1.5, color: Color(0xFFE2E8F0)),
+                        side: const BorderSide(
+                            width: 1.5, color: Color(0xFFE2E8F0)),
                       ),
                     ),
                     child: Row(
@@ -196,11 +200,15 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: height * 0.01,),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
                   TextButton(
-                    onPressed: () async { // Make it async to await the push
+                    onPressed: () async {
+                      // Make it async to await the push
                       print("Anak Page");
-                      await Navigator.push( // Await the push so you can refresh
+                      await Navigator.push(
+                        // Await the push so you can refresh
                         context,
                         MaterialPageRoute(
                           builder: (context) => const IbuDataAnakScreen(),
@@ -212,7 +220,8 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(width: 1.5, color: Color(0xFFE2E8F0)),
+                        side: const BorderSide(
+                            width: 1.5, color: Color(0xFFE2E8F0)),
                       ),
                     ),
                     child: Row(
@@ -249,7 +258,8 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const KaderPasswordScreen(), // Replace with actual email change screen
+                          builder: (context) =>
+                              const KaderPasswordScreen(), // Replace with actual email change screen
                         ),
                       );
                     },
@@ -258,7 +268,8 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(width: 1.5, color: Color(0xFFE2E8F0)),
+                        side: const BorderSide(
+                            width: 1.5, color: Color(0xFFE2E8F0)),
                       ),
                     ),
                     child: Row(
@@ -291,7 +302,8 @@ class _IbuProfilScreenState extends State<IbuProfilScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(width: 1.5, color: Color(0xFFE2E8F0)),
+                        side: const BorderSide(
+                            width: 1.5, color: Color(0xFFE2E8F0)),
                       ),
                     ),
                     child: Row(

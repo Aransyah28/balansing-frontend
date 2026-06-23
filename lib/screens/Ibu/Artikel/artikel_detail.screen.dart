@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:intl/intl.dart'; 
-import 'package:balansing/services/ibu_services.dart'; 
+import 'package:intl/intl.dart';
+import 'package:balansing/services/ibu_services.dart';
 import 'package:url_launcher/url_launcher.dart'; // Tambahkan ini untuk membuka link jika ada
 
 class ArtikelDetailScreen extends StatefulWidget {
   final String id;
-  
+
   const ArtikelDetailScreen({super.key, required this.id});
 
   @override
@@ -22,7 +22,7 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
     super.initState();
     _articleDetailFuture = IbuServices().getDetailArticle(widget.id);
   }
-  
+
   String _formatDate(String isoDateString) {
     try {
       final dateTime = DateTime.parse(isoDateString);
@@ -44,7 +44,8 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Gagal memuat artikel: ${snapshot.error}'));
+            return Center(
+                child: Text('Gagal memuat artikel: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             final article = snapshot.data!;
             final List<String> tagNames = (article['tags'] as List<dynamic>)
@@ -52,13 +53,15 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                 .toList();
             final String imageUrl = article['gambar'] ??
                 'https://fqpalkzlylkiqmnsizji.supabase.co/storage/v1/object/public/Video/Artikel/NoImage.png';
-            final String waktuBaca = article['waktuBaca']?.toString() ?? '4'; // Menambahkan waktuBaca
+            final String waktuBaca = article['waktuBaca']?.toString() ??
+                '4'; // Menambahkan waktuBaca
 
             return SingleChildScrollView(
               child: Container(
                 color: Colors.white,
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,14 +123,17 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                       children: [
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 4),
-                          padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6.0, vertical: 6.0),
                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
                             color: Color.fromARGB(26, 100, 116, 139),
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.person_4_outlined, size: width * 0.035),
+                              Icon(Icons.person_4_outlined,
+                                  size: width * 0.035),
                               Text(
                                 "Tim Balansing",
                                 style: GoogleFonts.poppins(
@@ -141,14 +147,17 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 4),
-                          padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6.0, vertical: 6.0),
                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
                             color: Color.fromARGB(26, 100, 116, 139),
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.calendar_today_outlined, size: width * 0.035),
+                              Icon(Icons.calendar_today_outlined,
+                                  size: width * 0.035),
                               SizedBox(width: width * 0.01),
                               Text(
                                 _formatDate(article['tanggal']),
@@ -163,9 +172,11 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 4),
-                          padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6.0, vertical: 6.0),
                           decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
                             color: Color.fromARGB(26, 100, 116, 139),
                           ),
                           child: Row(
@@ -197,8 +208,10 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                             if (loadingProgress == null) return child;
                             return Center(
                               child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
                                     : null,
                               ),
                             );
@@ -206,7 +219,8 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
                               color: Colors.grey[200],
-                              child: const Icon(Icons.error_outline, color: Colors.grey),
+                              child: const Icon(Icons.error_outline,
+                                  color: Colors.grey),
                             );
                           },
                         ),
@@ -218,7 +232,13 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                       children: tagNames.map((tag) {
                         return Container(
                           margin: const EdgeInsets.symmetric(horizontal: 4),
-                          padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6.0, vertical: 6.0),
+                          decoration: const BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                            color: Color(0xFFDBEAFE),
+                          ),
                           child: Text(
                             tag,
                             style: GoogleFonts.poppins(
@@ -227,10 +247,6 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                               color: const Color(0xFF64748B),
                             ),
                           ),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            color: Color(0xFFDBEAFE),
-                          ),
                         );
                       }).toList(),
                     ),
@@ -238,7 +254,8 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                     // MarkdownBody dengan style yang lebih lengkap
                     MarkdownBody(
                       data: article['konten'],
-                      onTapLink: (text, href, title) => href != null ? launchUrl(Uri.parse(href)) : null,
+                      onTapLink: (text, href, title) =>
+                          href != null ? launchUrl(Uri.parse(href)) : null,
                       styleSheet: MarkdownStyleSheet(
                         // Mengatur gaya untuk H1 dan H2
                         h1: GoogleFonts.poppins(
@@ -271,10 +288,12 @@ class _ArtikelDetailScreenState extends State<ArtikelDetailScreen> {
                         // Mengatur gaya untuk bold text
                         strong: const TextStyle(fontWeight: FontWeight.bold),
                         // Mengatur gaya untuk link
-                        a: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                        a: const TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline),
                       ),
                     ),
-                    SizedBox(height: height*0.08),
+                    SizedBox(height: height * 0.08),
                   ],
                 ),
               ),

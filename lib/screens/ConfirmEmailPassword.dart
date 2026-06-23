@@ -10,11 +10,13 @@ class ConfirmEmailPassword extends StatefulWidget {
   const ConfirmEmailPassword({super.key});
 
   @override
-  State<ConfirmEmailPassword> createState() => _ConfirmEmailPasswordState(); // Mengubah nama state class agar sesuai konvensi
+  State<ConfirmEmailPassword> createState() =>
+      _ConfirmEmailPasswordState(); // Mengubah nama state class agar sesuai konvensi
 }
 
 class _ConfirmEmailPasswordState extends State<ConfirmEmailPassword> {
-  bool _isVisible = false; // State untuk mengontrol visibilitas (opacity) animasi
+  bool _isVisible =
+      false; // State untuk mengontrol visibilitas (opacity) animasi
 
   @override
   void initState() {
@@ -38,7 +40,7 @@ class _ConfirmEmailPasswordState extends State<ConfirmEmailPassword> {
     print("Animasi selesai!");
     Navigator.pop(context);
     Navigator.pop(context);
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +50,19 @@ class _ConfirmEmailPasswordState extends State<ConfirmEmailPassword> {
     return Scaffold(
       backgroundColor: Colors.white, // Background screen putih
       body: Center(
-        child: AnimatedOpacity( // Widget untuk animasi opacity
-          opacity: _isVisible ? 1.0 : 0.0, // Opacity dari 0.0 (transparan) ke 1.0 (penuh)
-          duration: const Duration(milliseconds: 1000), // Durasi animasi fade-in
+        child: AnimatedOpacity(
+          // Widget untuk animasi opacity
+          opacity: _isVisible
+              ? 1.0
+              : 0.0, // Opacity dari 0.0 (transparan) ke 1.0 (penuh)
+          duration:
+              const Duration(milliseconds: 1000), // Durasi animasi fade-in
           curve: Curves.easeIn, // Kurva animasi untuk efek yang lebih halus
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 width: width * 0.2,
                 height: width * 0.2,
                 child: Image.asset(

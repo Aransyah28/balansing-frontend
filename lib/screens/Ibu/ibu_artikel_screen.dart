@@ -46,13 +46,14 @@ class _IbuMakananScreenState extends State<IbuArtikelScreen> {
               SizedBox(height: height * 0.02),
               Container(
                 width: width * 0.9,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF1F5F9),
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: Colors.grey.withValues(alpha: 0.2),
                       spreadRadius: 2,
                       blurRadius: 5,
                       offset: const Offset(0, 3),
@@ -114,14 +115,17 @@ class _IbuMakananScreenState extends State<IbuArtikelScreen> {
 
                         // Mengambil nama tag saja
                         final List<String> tagNames =
-                            (article['tags'] as List<dynamic>).map((tag) => tag['nama'].toString()).toList();
+                            (article['tags'] as List<dynamic>)
+                                .map((tag) => tag['nama'].toString())
+                                .toList();
 
                         // Mengambil gambar URL. Jika null atau tidak ada, gunakan URL default.
                         final String imageUrl = article['gambar'] ??
                             'https://fqpalkzlylkiqmnsizji.supabase.co/storage/v1/object/public/Video/Artikel/NoImage.png';
-                        
+
                         // Mengambil waktu baca. Jika null atau tidak ada, gunakan nilai default.
-                        final String waktuBaca = article['waktuBaca']?.toString() ?? '4';
+                        final String waktuBaca =
+                            article['waktuBaca']?.toString() ?? '4';
 
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
@@ -138,7 +142,8 @@ class _IbuMakananScreenState extends State<IbuArtikelScreen> {
                   }
                   // Jika tidak ada data
                   else {
-                    return const Center(child: Text("Tidak ada artikel yang ditemukan."));
+                    return const Center(
+                        child: Text("Tidak ada artikel yang ditemukan."));
                   }
                 },
               ),

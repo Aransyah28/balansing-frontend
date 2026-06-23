@@ -57,15 +57,18 @@ class _KaderTambahIIState extends State<KaderTambahII> {
     updatedAnakKader.email = User.instance.email;
 
     try {
-      final response = await KaderServices().postAnakKader(updatedAnakKader.toJson());
-      print('Data anak berhasil disimpan: ${response}');
+      final response =
+          await KaderServices().postAnakKader(updatedAnakKader.toJson());
+      print('Data anak berhasil disimpan: $response');
 
       anakKaderData.reset();
 
       if (!filterModel.filter) {
-        await Provider.of<RiwayatProvider>(context, listen: false).fetchChildrenData();
+        await Provider.of<RiwayatProvider>(context, listen: false)
+            .fetchChildrenData();
       } else {
-        await Provider.of<RiwayatProvider>(context, listen: false).filterChildrenByMonth(
+        await Provider.of<RiwayatProvider>(context, listen: false)
+            .filterChildrenByMonth(
           filterModel.month,
           filterModel.year,
           filterModel.count,
@@ -183,13 +186,20 @@ class _KaderTambahIIState extends State<KaderTambahII> {
           children: [
             Expanded(
               child: InkWell(
-                onTap: _isLoading ? null : () => onChanged(valueForYes), // DISABLE saat loading
+                onTap: _isLoading
+                    ? null
+                    : () => onChanged(valueForYes), // DISABLE saat loading
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                   decoration: BoxDecoration(
-                    color: groupValue == valueForYes ? const Color(0xFFF4F9EC) : Colors.white,
+                    color: groupValue == valueForYes
+                        ? const Color(0xFFF4F9EC)
+                        : Colors.white,
                     border: Border.all(
-                      color: groupValue == valueForYes ? const Color(0xFF9FC86A) : const Color(0xFFE2E8F0),
+                      color: groupValue == valueForYes
+                          ? const Color(0xFF9FC86A)
+                          : const Color(0xFFE2E8F0),
                       width: 1.0,
                     ),
                     borderRadius: BorderRadius.circular(8.0),
@@ -198,7 +208,9 @@ class _KaderTambahIIState extends State<KaderTambahII> {
                     child: Text(
                       labelForYes,
                       style: GoogleFonts.poppins(
-                        color: groupValue == valueForYes ? const Color(0xFF9FC86A) : Colors.black,
+                        color: groupValue == valueForYes
+                            ? const Color(0xFF9FC86A)
+                            : Colors.black,
                         fontSize: width * 0.035,
                         fontWeight: FontWeight.w500,
                       ),
@@ -210,13 +222,20 @@ class _KaderTambahIIState extends State<KaderTambahII> {
             SizedBox(width: width * 0.04),
             Expanded(
               child: InkWell(
-                onTap: _isLoading ? null : () => onChanged(valueForNo), // DISABLE saat loading
+                onTap: _isLoading
+                    ? null
+                    : () => onChanged(valueForNo), // DISABLE saat loading
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                   decoration: BoxDecoration(
-                    color: groupValue == valueForNo ? const Color(0xFFF4F9EC) : Colors.white,
+                    color: groupValue == valueForNo
+                        ? const Color(0xFFF4F9EC)
+                        : Colors.white,
                     border: Border.all(
-                      color: groupValue == valueForNo ? const Color(0xFF9FC86A) : const Color(0xFFE2E8F0),
+                      color: groupValue == valueForNo
+                          ? const Color(0xFF9FC86A)
+                          : const Color(0xFFE2E8F0),
                       width: 1.0,
                     ),
                     borderRadius: BorderRadius.circular(8.0),
@@ -225,7 +244,9 @@ class _KaderTambahIIState extends State<KaderTambahII> {
                     child: Text(
                       labelForNo,
                       style: GoogleFonts.poppins(
-                        color: groupValue == valueForNo ? const Color(0xFF9FC86A) : Colors.black,
+                        color: groupValue == valueForNo
+                            ? const Color(0xFF9FC86A)
+                            : Colors.black,
                         fontSize: width * 0.035,
                         fontWeight: FontWeight.w500,
                       ),
@@ -253,27 +274,34 @@ class _KaderTambahIIState extends State<KaderTambahII> {
             body: Container(
               color: Colors.white,
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: 10.0),
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.05, vertical: 10.0),
               child: Column(
                 children: [
                   Expanded(
                     child: Form(
                       key: _formKey,
                       child: ListView(
-                        physics: _isLoading ? const NeverScrollableScrollPhysics() : null, // DISABLE scroll saat loading
+                        physics: _isLoading
+                            ? const NeverScrollableScrollPhysics()
+                            : null, // DISABLE scroll saat loading
                         children: [
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 TextButton(
-                                  onPressed: _isLoading ? null : () => Navigator.pop(context), // DISABLE saat loading
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () => Navigator.pop(
+                                          context), // DISABLE saat loading
                                   style: TextButton.styleFrom(
                                     padding: EdgeInsets.zero,
                                     minimumSize: Size.zero,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
                                     alignment: Alignment.centerLeft,
                                   ),
                                   child: Row(
@@ -322,33 +350,42 @@ class _KaderTambahIIState extends State<KaderTambahII> {
                           SizedBox(height: height * 0.02),
                           Text(
                             "Tambah Data",
-                            style: GoogleFonts.poppins(fontSize: width * 0.06, fontWeight: FontWeight.w600),
+                            style: GoogleFonts.poppins(
+                                fontSize: width * 0.06,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "Data anak ke-1",
                             style: GoogleFonts.poppins(
-                                fontSize: width * 0.035, fontWeight: FontWeight.w400, color: const Color(0xFF64748B)),
+                                fontSize: width * 0.035,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF64748B)),
                           ),
                           SizedBox(height: height * 0.02),
                           Text(
                             "Gejala",
-                            style: GoogleFonts.poppins(fontSize: width * 0.04, fontWeight: FontWeight.w600),
+                            style: GoogleFonts.poppins(
+                                fontSize: width * 0.04,
+                                fontWeight: FontWeight.w600),
                           ),
                           SizedBox(height: height * 0.02),
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                              border: Border.all(
+                                  color: const Color(0xFFE2E8F0), width: 1.0),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 18, vertical: 18),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 _buildRadioRow(
                                   title: "Konjungtiva",
-                                  question: "Kecil dan Abu-abu. Saat kelopak mata bawah anak ditarik perlahan, apakah warnanya merah segar?",
+                                  question:
+                                      "Kecil dan Abu-abu. Saat kelopak mata bawah anak ditarik perlahan, apakah warnanya merah segar?",
                                   valueForYes: false,
                                   labelForYes: "Merah Segar",
                                   valueForNo: true,
@@ -365,7 +402,8 @@ class _KaderTambahIIState extends State<KaderTambahII> {
                                 SizedBox(height: height * 0.02),
                                 _buildRadioRow(
                                   title: "Kuku",
-                                  question: "Apakah kuku anak bersih dan tidak rapuh?",
+                                  question:
+                                      "Apakah kuku anak bersih dan tidak rapuh?",
                                   valueForYes: false,
                                   labelForYes: "Ya, bersih",
                                   valueForNo: true,
@@ -416,7 +454,8 @@ class _KaderTambahIIState extends State<KaderTambahII> {
                                 SizedBox(height: height * 0.02),
                                 _buildRadioRow(
                                   title: "Riwayat Anemia",
-                                  question: "Apakah anak memiliki riwayat anemia?",
+                                  question:
+                                      "Apakah anak memiliki riwayat anemia?",
                                   valueForYes: true,
                                   labelForYes: "Ya",
                                   valueForNo: false,
@@ -448,24 +487,33 @@ class _KaderTambahIIState extends State<KaderTambahII> {
                           onPressed: _isLoading
                               ? null
                               : () {
-                                  AnakKader updatedAnakKader = _collectGejalaDataForAnakKader();
-                                  _anakKaderDataManager.currentAnakKader = updatedAnakKader;
+                                  AnakKader updatedAnakKader =
+                                      _collectGejalaDataForAnakKader();
+                                  _anakKaderDataManager.currentAnakKader =
+                                      updatedAnakKader;
                                   print('Data gejala disimpan ke DataManager:');
                                   print(updatedAnakKader.toJson());
                                   Navigator.pop(context);
                                 },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: _isLoading ? Colors.grey : const Color(0xFFF4F9EC),
+                            backgroundColor: _isLoading
+                                ? Colors.grey
+                                : const Color(0xFFF4F9EC),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(color: _isLoading ? Colors.grey : const Color(0xFF9FC86A)),
+                              side: BorderSide(
+                                  color: _isLoading
+                                      ? Colors.grey
+                                      : const Color(0xFF9FC86A)),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
                           ),
                           child: Text(
                             "Simpan & keluar",
                             style: GoogleFonts.poppins(
-                              color: _isLoading ? Colors.white : const Color(0xFF9FC86A),
+                              color: _isLoading
+                                  ? Colors.white
+                                  : const Color(0xFF9FC86A),
                               fontSize: width * 0.035,
                               fontWeight: FontWeight.w500,
                             ),
@@ -477,16 +525,21 @@ class _KaderTambahIIState extends State<KaderTambahII> {
                         child: ElevatedButton(
                           onPressed: ButtonActive
                               ? () {
-                                  AnakKader updatedAnakKader = _collectGejalaDataForAnakKader();
+                                  AnakKader updatedAnakKader =
+                                      _collectGejalaDataForAnakKader();
                                   updatedAnakKader.email = User.instance.email;
-                                  _anakKaderDataManager.currentAnakKader = updatedAnakKader;
-                                  print('Data gejala saat ini (Tombol Selanjutnya) dan disimpan ke DataManager:');
+                                  _anakKaderDataManager.currentAnakKader =
+                                      updatedAnakKader;
+                                  print(
+                                      'Data gejala saat ini (Tombol Selanjutnya) dan disimpan ke DataManager:');
                                   print(updatedAnakKader.toJson());
                                   _SubmitAnak();
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: ButtonActive ? const Color(0xFF9FC86A) : Colors.grey,
+                            backgroundColor: ButtonActive
+                                ? const Color(0xFF9FC86A)
+                                : Colors.grey,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -499,7 +552,8 @@ class _KaderTambahIIState extends State<KaderTambahII> {
                                   height: width * 0.05,
                                   child: const CircularProgressIndicator(
                                     strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white),
                                   ),
                                 )
                               : Text(
@@ -522,7 +576,7 @@ class _KaderTambahIIState extends State<KaderTambahII> {
           // LOADING OVERLAY
           if (_isLoading)
             Material(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 0.3),
               child: Center(
                 child: Container(
                   padding: const EdgeInsets.all(24),
@@ -534,7 +588,8 @@ class _KaderTambahIIState extends State<KaderTambahII> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF9FC86A)),
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Color(0xFF9FC86A)),
                       ),
                       const SizedBox(height: 16),
                       Text(

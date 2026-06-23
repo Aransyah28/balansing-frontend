@@ -23,15 +23,14 @@ class RecapProvider with ChangeNotifier {
 
     try {
       // Ambil data langsung sebagai List<dynamic>
-      final List<dynamic> recapList = await _ibuServices.getMonthlyRecap(ibuId, month, year);
+      final List<dynamic> recapList =
+          await _ibuServices.getMonthlyRecap(ibuId, month, year);
 
       // Ubah setiap item List menjadi ChildData
       _monthlyRecaps = recapList.asMap().entries.map((entry) {
         int index = entry.key;
         Map<String, dynamic> data = entry.value as Map<String, dynamic>;
-        
 
-        
         return ChildData(
           name: data['nama'],
           age: data['usia'].toString(),
@@ -45,7 +44,6 @@ class RecapProvider with ChangeNotifier {
           anakId: data['id'],
         );
       }).toList();
-      
     } catch (e) {
       _errorMessage = e.toString();
       _monthlyRecaps = [];
@@ -72,12 +70,12 @@ class RecapProvider with ChangeNotifier {
 }
 
 extension on Object {
-  asMap() {}
+  void asMap() {}
 }
 
 class ProfileProvider with ChangeNotifier {
   final IbuServices _ibuServices = IbuServices();
-  
+
   List<Map<String, dynamic>> _daftarAnak = [];
   bool _isLoading = false;
   String? _errorMessage;
@@ -116,7 +114,6 @@ class ProfileProvider with ChangeNotifier {
     }
   }
 }
-
 
 class DashboardIbuProvider with ChangeNotifier {
   final IbuServices _dashboardService = IbuServices();
@@ -162,7 +159,7 @@ class DashboardIbuProvider with ChangeNotifier {
 class RecapIbuProvider with ChangeNotifier {
   // 1. State untuk Loading
   bool _isSubmitting = false;
-  
+
   // 2. Getter untuk Loading State
   bool get isSubmitting => _isSubmitting;
 
@@ -181,9 +178,9 @@ class RecapIbuProvider with ChangeNotifier {
     try {
       // 1. Panggil Service Pertama (Post Recap)
       final response = await IbuServices().postRecapAnak(dataAnak);
-      
+
       _recapResponse = response;
-      
+
       print("Data berhasil dikirim: $response");
 
       // 2. Panggil Service Kedua (Generate Rekomendasi)
@@ -194,17 +191,16 @@ class RecapIbuProvider with ChangeNotifier {
       // 3. Setelah proses selesai, hentikan loading
       _isSubmitting = false;
       notifyListeners();
-      
+
       // Kembalikan response pertama (atau kode recap yang dibutuhkan)
-      return response; 
-      
+      return response;
     } catch (e) {
       // 4. Handle Error dan Hentikan Loading
       print("Gagal mengirim data di provider: $e");
       _isSubmitting = false;
       notifyListeners();
       // Lemparkan error agar Widget bisa menangkapnya dan menampilkan Snackbar error
-      throw Exception(e.toString()); 
+      throw Exception(e.toString());
     }
   }
 }
