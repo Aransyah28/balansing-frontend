@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:balansing/services/ibu_services.dart'; // Pastikan path ini benar
 
 class MakananRecomendationScreen extends StatefulWidget {

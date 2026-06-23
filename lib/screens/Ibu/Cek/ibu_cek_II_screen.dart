@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balansing/services/ibu_services.dart';
 import 'package:balansing/card/ResultAnakCard.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 class IbuCekIIScreen extends StatefulWidget {
   final String id;

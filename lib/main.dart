@@ -20,10 +20,11 @@ import 'package:balansing/screens/onboarding_screen.dart';
 import 'package:balansing/screens/Kader/kader_dahboard_screen.dart';
 import 'package:balansing/screens/Ibu/ibu_dashboard_screen.dart';
 import 'package:balansing/models/filter_model.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
   await initializeDateFormatting('id_ID', null);
   await app_user.User.loadFromPrefs();
 
@@ -43,7 +44,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => FilterModel(), // Daftarkan FilterModel
         ),
-        
+
         // Daftarkan provider baru untuk riwayat
         ChangeNotifierProvider(create: (_) => RiwayatProvider()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
@@ -67,8 +68,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff0678FF)),
         useMaterial3: true,
         navigationBarTheme: NavigationBarThemeData(
-          labelTextStyle: WidgetStatePropertyAll(GoogleFonts.poppins(
-              fontSize: 10, fontWeight: FontWeight.w700)),
+          labelTextStyle: WidgetStatePropertyAll(
+              GoogleFonts.poppins(fontSize: 10, fontWeight: FontWeight.w700)),
         ),
       ),
       home: Consumer<app_user.User>(
@@ -76,7 +77,8 @@ class MyApp extends StatelessWidget {
           final authService = AuthService();
 
           if (authService.isUserTokenNullOrEmpty()) {
-            print('DEBUG: User token is null or empty. Navigating to OnboardingScreen.');
+            print(
+                'DEBUG: User token is null or empty. Navigating to OnboardingScreen.');
             return const OnboardingScreen();
           } else {
             final String? userType = authService.getUserType();
@@ -89,7 +91,8 @@ class MyApp extends StatelessWidget {
             } else if (userType == 'IBU') {
               return const IbuDashboardScreen();
             } else {
-              print('DEBUG: Unknown user type or empty. Navigating to OnboardingScreen.');
+              print(
+                  'DEBUG: Unknown user type or empty. Navigating to OnboardingScreen.');
               return const OnboardingScreen();
             }
           }

@@ -8,7 +8,7 @@ import 'package:balansing/models/filter_model.dart';
 import 'package:balansing/providers/KaderProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:balansing/card/filterModal.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 class BerandaScreen extends StatefulWidget {
   const BerandaScreen({super.key});
@@ -583,7 +583,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                                             if (value.toInt() < monthlyData.length &&
                                                 value % 1 == 0) {
                                               return SideTitleWidget(
-                                                axisSide: meta.axisSide,
+                                                meta: meta,
                                                 space: 8.0,
                                                 child: Text(
                                                     monthlyData[value.toInt()].month,
@@ -749,7 +749,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                                                   if (value.toInt() < monthlyStuntingData.length &&
                                                       value % 1 == 0) {
                                                     return SideTitleWidget(
-                                                      axisSide: meta.axisSide,
+                                                      meta: meta,
                                                       space: 8.0,
                                                       child: Text(
                                                           monthlyStuntingData[value.toInt()].month,
@@ -916,7 +916,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                                             if (value.toInt() < monthlyAnemiaData.length &&
                                                 value % 1 == 0) {
                                               return SideTitleWidget(
-                                                axisSide: meta.axisSide,
+                                                meta: meta,
                                                 space: 8.0,
                                                 child: Text(
                                                     monthlyAnemiaData[value.toInt()].month,
@@ -1351,7 +1351,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                                             // Panggil properti 'group' untuk mendapatkan label rentang usia
                                             final data = ageDistributionData[value.toInt()];
                                             return SideTitleWidget(
-                                              axisSide: meta.axisSide,
+                                              meta: meta,
                                               space: 4.0,
                                               child: Text(
                                                 data.group, // Perbaiki: Gunakan `data.group`
