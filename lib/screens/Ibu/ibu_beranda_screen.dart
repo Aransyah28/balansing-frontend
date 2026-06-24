@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balansing/card/DashboardCardI.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:balansing/card/DashboardZBarCard.dart';
 import 'package:balansing/card/DashboardChart.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,8 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
 
   Future<void> _fetchInitialData() async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final provider = Provider.of<DashboardIbuProvider>(context, listen: false);
+      final provider =
+          Provider.of<DashboardIbuProvider>(context, listen: false);
       try {
         final email = User.instance.email;
 
@@ -90,7 +91,8 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
                             _selectedAnakId = anak['id'];
                           });
                           Navigator.pop(context);
-                          Provider.of<DashboardIbuProvider>(context, listen: false)
+                          Provider.of<DashboardIbuProvider>(context,
+                                  listen: false)
                               .fetchDashboardData(_selectedAnakId!);
                         },
                       );
@@ -135,18 +137,31 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
 
   String _getMonthName(int month) {
     const months = [
-      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember'
     ];
     return months[month - 1];
   }
 
   List<GrowthData> _mapToGrowthData(List<dynamic> data) {
-    return data.asMap().entries.map((entry) =>
-      GrowthData(
-        month: entry.key + 1,
-        value: (entry.value as num).toDouble(),
-      )).toList();
+    return data
+        .asMap()
+        .entries
+        .map((entry) => GrowthData(
+              month: entry.key + 1,
+              value: (entry.value as num).toDouble(),
+            ))
+        .toList();
   }
 
   Map<String, dynamic> _getStuntingStatus(String status) {
@@ -185,21 +200,21 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
 
   Map<String, dynamic> _getAnemiaStatus(bool isAnemic) {
     return isAnemic
-      ? {
-          'text': "Anemia",
-          'color': const Color(0xFFDC2626),
-          'image': 'assets/images/DangerIcon.png',
-          'highlightColor': const Color(0xFFFEE2E2),
-        }
-      : {
-          'text': "Sehat",
-          'color': const Color(0xFF9FC86A),
-          'image': 'assets/images/FineIcon.png',
-          'highlightColor': const Color(0xFFF4F9EC),
-        };
+        ? {
+            'text': "Anemia",
+            'color': const Color(0xFFDC2626),
+            'image': 'assets/images/DangerIcon.png',
+            'highlightColor': const Color(0xFFFEE2E2),
+          }
+        : {
+            'text': "Sehat",
+            'color': const Color(0xFF9FC86A),
+            'image': 'assets/images/FineIcon.png',
+            'highlightColor': const Color(0xFFF4F9EC),
+          };
   }
 
-   Map<String, dynamic> _getLahirStatus(String status) {
+  Map<String, dynamic> _getLahirStatus(String status) {
     switch (status) {
       case 'lebih':
       case 'normal':
@@ -245,7 +260,7 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha: 0.2),
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -325,41 +340,45 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
     if (provider.error != null) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text("Recap Data Anak Tidak Ditemukan! Mungkin si Kecil belum pernah melakukan pengecekan.", textAlign: TextAlign.center, style: GoogleFonts.poppins(fontSize: width*0.04, fontWeight: FontWeight.w600)),
-            SizedBox(height: height*0.02,),
-          //   Text(
-          //   provider.error!,
-          //   textAlign: TextAlign.center,
-          //   style: GoogleFonts.poppins(color: Colors.red),
-          // ),
-          SizedBox(height: height*0.02,),
+            padding: const EdgeInsets.all(16.0),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                  "Recap Data Anak Tidak Ditemukan! Mungkin si Kecil belum pernah melakukan pengecekan.",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                      fontSize: width * 0.04, fontWeight: FontWeight.w600)),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              //   Text(
+              //   provider.error!,
+              //   textAlign: TextAlign.center,
+              //   style: GoogleFonts.poppins(color: Colors.red),
+              // ),
+              SizedBox(
+                height: height * 0.02,
+              ),
 
-          GestureDetector(
-              onTap: _showAnakSelectionModal,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Pilih Anak ",
-                    style: GoogleFonts.poppins(
-                      fontSize: width * 0.04,
-                      fontWeight: FontWeight.w600,
+              GestureDetector(
+                  onTap: _showAnakSelectionModal,
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Text(
+                      "Pilih Anak ",
+                      style: GoogleFonts.poppins(
+                        fontSize: width * 0.04,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  const Icon(Icons.arrow_drop_down, color: Color(0xFF454545)),
-                ]))
-                
-
-
-          ]) 
-        ),
+                    const Icon(Icons.arrow_drop_down, color: Color(0xFF454545)),
+                  ]))
+            ])),
       );
     }
-    
+
     if (provider.data == null) {
-      return const Center(child: Text("Tidak ada data dashboard yang tersedia."));
+      return const Center(
+          child: Text("Tidak ada data dashboard yang tersedia."));
     }
 
     // Jika data tidak null, tampilkan konten utama
@@ -396,24 +415,25 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
           children: [
             SizedBox(height: height * 0.04),
             GestureDetector(
-            onTap: _showAnakSelectionModal,
-            child: Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    "Dashboard ${data.nama}",
-                    style: GoogleFonts.poppins(
-                      fontSize: width * 0.04,
-                      fontWeight: FontWeight.w600,
+              onTap: _showAnakSelectionModal,
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      "Dashboard ${data.nama}",
+                      style: GoogleFonts.poppins(
+                        fontSize: width * 0.04,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      overflow:
+                          TextOverflow.ellipsis, // Tambahkan ini jika mau ...
+                      maxLines: 1, // dan ini
                     ),
-                    overflow: TextOverflow.ellipsis, // Tambahkan ini jika mau ...
-                    maxLines: 1, // dan ini
                   ),
-                ),
-                const Icon(Icons.arrow_drop_down, color: Color(0xFF454545)),
-              ],
+                  const Icon(Icons.arrow_drop_down, color: Color(0xFF454545)),
+                ],
+              ),
             ),
-          ),
             BabyInfoCard(
               name: data.nama,
               lastCheckUp: formattedDate,
@@ -451,7 +471,7 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
         border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha: 0.2),
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -484,7 +504,7 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
+                color: Colors.grey.withValues(alpha: 0.1),
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: const Offset(0, 3),
@@ -563,14 +583,14 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
         ),
         SizedBox(height: height * 0.01),
         GrowthIndicatorCard(
-        title: 'Tinggi Badan menurut Umur (WFA)',
-        value: '${data.tb.toStringAsFixed(2)} cm',
-        zScore: '${data.tb / (data.umur)}',
-        status: 'Tinggi badan normal',
-        imagePath: 'assets/images/RulerIcon.png',
-        width: width,
-        count: 1,
-      ),
+          title: 'Tinggi Badan menurut Umur (WFA)',
+          value: '${data.tb.toStringAsFixed(2)} cm',
+          zScore: '${data.tb / (data.umur)}',
+          status: 'Tinggi badan normal',
+          imagePath: 'assets/images/RulerIcon.png',
+          width: width,
+          count: 1,
+        ),
         SizedBox(height: height * 0.01),
         GrowthChartCard(
           title: 'Tinggi Badan',

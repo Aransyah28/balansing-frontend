@@ -9,7 +9,6 @@ class MakananTutorialScreen extends StatefulWidget {
 }
 
 class _MakananConfirmScreenState extends State<MakananTutorialScreen> {
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -76,17 +75,19 @@ class _MakananConfirmScreenState extends State<MakananTutorialScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: height*0.02),
+              SizedBox(height: height * 0.02),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12.0, vertical: 12.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(width: 1, color: Color(0xFFD1D5DB)),
                   borderRadius: BorderRadius.all(Radius.circular(8)),
-                    boxShadow: [
+                  boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.1), // Warna bayangan (transparan)
+                      color: Colors.grey.withValues(
+                          alpha: 0.1), // Warna bayangan (transparan)
                       spreadRadius: 1, // Sebaran bayangan
                       blurRadius: 5, // Kehalusan bayangan
                       offset: const Offset(0, 3), // Posisi bayangan (x, y)
@@ -105,9 +106,13 @@ class _MakananConfirmScreenState extends State<MakananTutorialScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(height: height*0.01,),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
                     Image.asset("assets/images/Tutorial1.jpg"),
-                    SizedBox(height: height*0.01,),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
                     Text(
                       "2.Konfirmasi gambar yang telah diambil",
                       style: GoogleFonts.poppins(
@@ -124,35 +129,36 @@ class _MakananConfirmScreenState extends State<MakananTutorialScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(height: height*0.01),
+                    SizedBox(height: height * 0.01),
                     Image.asset('assets/images/Tutorial2.png'),
-                    SizedBox(height: height*0.02),
+                    SizedBox(height: height * 0.02),
                     Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      left: BorderSide(
-                        color: Color(0xFF9FC86A),
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Gunakan fitur “cari disini” untuk menambahkan makanan yang tidak terdeteksi oleh sistem",
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xFF64748B),
-                          fontSize: width * 0.025,
-                          fontWeight: FontWeight.w400,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 2.0),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(
+                            color: Color(0xFF9FC86A),
+                            width: 2.0,
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: height*0.02),
-                Text(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Gunakan fitur “cari disini” untuk menambahkan makanan yang tidak terdeteksi oleh sistem",
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xFF64748B),
+                              fontSize: width * 0.025,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: height * 0.02),
+                    Text(
                       "4. Eksplorasi halaman hasil termasuk “Rekomendasi” dan “Artikel”",
                       style: GoogleFonts.poppins(
                         color: const Color(0xFF64748B),
@@ -163,7 +169,9 @@ class _MakananConfirmScreenState extends State<MakananTutorialScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: height*0.1,)
+              SizedBox(
+                height: height * 0.1,
+              )
             ],
           ),
         ),

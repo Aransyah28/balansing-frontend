@@ -53,7 +53,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
     });
 
     try {
-      Map<String, dynamic> data = await _kaderServices.getKader(User.instance.email);
+      Map<String, dynamic> data =
+          await _kaderServices.getKader(User.instance.email);
 
       setState(() {
         _kaderProfileRawData = jsonEncode(data);
@@ -146,7 +147,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     ),
                   ),
                   Text(
-                    "RT. ${_rt} / RW. ${_rw}",
+                    "RT. $_rt / RW. $_rw",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       fontSize: height * 0.018,
@@ -158,7 +159,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               width: width * 0.9,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -173,9 +174,11 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () async { // Make it async to await the push
+                    onPressed: () async {
+                      // Make it async to await the push
                       print("Informasi Dasar Page");
-                      await Navigator.push( // Await the push so you can refresh
+                      await Navigator.push(
+                        // Await the push so you can refresh
                         context,
                         MaterialPageRoute(
                           builder: (context) => const KaderInformasiScreen(),
@@ -189,7 +192,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(width: 1.5, color: Color(0xFFE2E8F0)),
+                        side: const BorderSide(
+                            width: 1.5, color: Color(0xFFE2E8F0)),
                       ),
                     ),
                     child: Row(
@@ -226,7 +230,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const KaderPasswordScreen(), // Replace with actual email change screen
+                          builder: (context) =>
+                              const KaderPasswordScreen(), // Replace with actual email change screen
                         ),
                       );
                     },
@@ -235,7 +240,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(width: 1.5, color: Color(0xFFE2E8F0)),
+                        side: const BorderSide(
+                            width: 1.5, color: Color(0xFFE2E8F0)),
                       ),
                     ),
                     child: Row(
@@ -264,17 +270,18 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const AboutUsPage(), // Replace with actual
+                          builder: (context) =>
+                              const AboutUsPage(), // Replace with actual
                         ),
                       );
-
                     },
                     style: TextButton.styleFrom(
                       minimumSize: Size(width * 0.9, height * 0.06),
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(width: 1.5, color: Color(0xFFE2E8F0)),
+                        side: const BorderSide(
+                            width: 1.5, color: Color(0xFFE2E8F0)),
                       ),
                     ),
                     child: Row(

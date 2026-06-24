@@ -7,10 +7,9 @@ import 'package:balansing/services/kader_services.dart';
 import "package:balansing/providers/KaderProvider.dart";
 import 'package:provider/provider.dart';
 
-
 class EditRecapI extends StatefulWidget {
-    final String? id;
-  
+  final String? id;
+
   const EditRecapI({super.key, required this.id});
 
   @override
@@ -33,12 +32,10 @@ class _EditRecapStateI extends State<EditRecapI> {
   String? _selectedGender;
   DateTime? _selectedBirthDate; // Tanggal lahir anak
 
-
-
   @override
   void initState() {
     super.initState();
-    _fetchData(); 
+    _fetchData();
   }
 
   void _saveDataToModel() {
@@ -82,15 +79,17 @@ class _EditRecapStateI extends State<EditRecapI> {
     _anakKader.reset();
   }
 
- Future<void> _DeleteAnak(String id) async{
+  Future<void> _DeleteAnak(String id) async {
     try {
       final response = await KaderServices().deleteAnakKader(id);
-      print('Data anak berhasil disimpan: ${response}');
+      print('Data anak berhasil disimpan: $response');
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Berhasil Dihapus!')),
-        );
-      Navigator.pop(context); // Kembali ke halaman sebelumnya atau halaman yang sesuai
-      Navigator.pop(context); // Kembali ke halaman sebelumnya atau halaman yang sesuai
+        SnackBar(content: Text('Berhasil Dihapus!')),
+      );
+      Navigator.pop(
+          context); // Kembali ke halaman sebelumnya atau halaman yang sesuai
+      Navigator.pop(
+          context); // Kembali ke halaman sebelumnya atau halaman yang sesuai
       Provider.of<RiwayatProvider>(context, listen: false).fetchChildrenData();
 
       // Tampilkan pesan sukses atau navigasi ke halaman lain jika diperlukan
@@ -100,7 +99,8 @@ class _EditRecapStateI extends State<EditRecapI> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error Mengakses Jaringan Server. Data gagal dihapus: Cek Internet Anda atau Coba lagi'),
+            content: Text(
+                'Error Mengakses Jaringan Server. Data gagal dihapus: Cek Internet Anda atau Coba lagi'),
             backgroundColor: Colors.red,
           ),
         );
@@ -110,41 +110,42 @@ class _EditRecapStateI extends State<EditRecapI> {
     }
   }
 
-Future<void> _fetchData() async {
-  try {
-    final List<Map<String, dynamic>> data = await KaderServices().getDetailAnakKader(widget.id!);
+  Future<void> _fetchData() async {
+    try {
+      final List<Map<String, dynamic>> data =
+          await KaderServices().getDetailAnakKader(widget.id!);
 
+      if (data.isNotEmpty) {
+        final anakData = data.first;
+        print(anakData);
 
-    if (data.isNotEmpty) {
-      final anakData = data.first;
-      print(anakData);
+        setState(() {
+          _selectedDate =
+              DateTime.tryParse(anakData['tanggalPemeriksaan'] ?? '') ??
+                  DateTime.now();
+          _namaIbuController.text = anakData['namaIbu'] ?? '';
+          _namaAnakController.text = anakData['nama'] ?? '';
+          _tahunController.text = anakData['umurTahun']?.toString() ?? '';
+          _bulanController.text = anakData['umurBulan']?.toString() ?? '';
+          _bbController.text = anakData['beratBadan']?.toString() ?? '';
+          _tbController.text = anakData['tinggiBadan']?.toString() ?? '';
+          _selectedGender = anakData['jenisKelamin'] ?? '';
 
-      setState(() {
-        _selectedDate = DateTime.tryParse(anakData['tanggalPemeriksaan'] ?? '') ?? DateTime.now();
-        _namaIbuController.text = anakData['namaIbu'] ?? '';
-        _namaAnakController.text = anakData['nama'] ?? '';
-        _tahunController.text = anakData['umurTahun']?.toString() ?? '';
-        _bulanController.text = anakData['umurBulan']?.toString() ?? '';
-        _bbController.text = anakData['beratBadan']?.toString() ?? '';
-        _tbController.text = anakData['tinggiBadan']?.toString() ?? '';
-        _selectedGender = anakData['jenisKelamin'] ?? '';
-
-        _anakKader.konjungtivitaNormal = anakData['konjungtivitaNormal'] ?? null;
-        _anakKader.kukuBersih = anakData['kukuBersih'] ?? null;  
-        _anakKader.tampakLemas = anakData['tampakLemas'] ?? null;
-        _anakKader.tampakPucat = anakData['tampakPucat'] ?? null;
-        _anakKader.riwayatAnemia = anakData['riwayatAnemia'] ?? null;
-      });
-    } else {
-      print('Tidak ada data anak ditemukan untuk ID ini.');
-      // Jika ingin menampilkan ke pengguna, gunakan dialog/snackbar di sini
+          _anakKader.konjungtivitaNormal = anakData['konjungtivitaNormal'];
+          _anakKader.kukuBersih = anakData['kukuBersih'];
+          _anakKader.tampakLemas = anakData['tampakLemas'];
+          _anakKader.tampakPucat = anakData['tampakPucat'];
+          _anakKader.riwayatAnemia = anakData['riwayatAnemia'];
+        });
+      } else {
+        print('Tidak ada data anak ditemukan untuk ID ini.');
+        // Jika ingin menampilkan ke pengguna, gunakan dialog/snackbar di sini
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      // Jika ingin menampilkan ke pengguna, gunakan dialog/snackbar di sini juga
     }
-  } catch (e) {
-    print('Error fetching data: $e');
-    // Jika ingin menampilkan ke pengguna, gunakan dialog/snackbar di sini juga
   }
-}
-
 
   @override
   void dispose() {
@@ -211,7 +212,8 @@ Future<void> _fetchData() async {
   Future<void> _selectBirthDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedBirthDate ?? DateTime.now().subtract(const Duration(days: 365)),
+      initialDate: _selectedBirthDate ??
+          DateTime.now().subtract(const Duration(days: 365)),
       firstDate: DateTime(2000),
       lastDate: DateTime.now(),
       builder: (BuildContext context, Widget? child) {
@@ -257,7 +259,7 @@ Future<void> _fetchData() async {
     }
   }
 
-   void _calculateAge() {
+  void _calculateAge() {
     if (_selectedBirthDate == null) return;
 
     final now = _selectedDate; // Gunakan tanggal pemeriksaan (hari ini)
@@ -310,17 +312,17 @@ Future<void> _fetchData() async {
             Expanded(
               child: ListView(
                 children: [
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         TextButton(
-                            onPressed: () {
-                              _resetDatatoModel();
-                              Navigator.pop(context);
-                            },
+                          onPressed: () {
+                            _resetDatatoModel();
+                            Navigator.pop(context);
+                          },
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.zero,
                             minimumSize: Size.zero,
@@ -373,21 +375,26 @@ Future<void> _fetchData() async {
                   SizedBox(height: height * 0.02),
                   Text(
                     "Edit Data",
-                    style: GoogleFonts.poppins(fontSize: width * 0.06, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.poppins(
+                        fontSize: width * 0.06, fontWeight: FontWeight.w600),
                   ),
                   Text(
                     "Data anak",
                     style: GoogleFonts.poppins(
-                        fontSize: width * 0.035, fontWeight: FontWeight.w400, color: const Color(0xFF64748B)),
+                        fontSize: width * 0.035,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF64748B)),
                   ),
                   SizedBox(height: height * 0.02),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                      border: Border.all(
+                          color: const Color(0xFFE2E8F0), width: 1.0),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -395,20 +402,27 @@ Future<void> _fetchData() async {
                         Text(
                           "Tanggal Pemeriksaan",
                           style: GoogleFonts.poppins(
-                              fontSize: width * 0.035, fontWeight: FontWeight.w500, color: const Color(0xFF64748B)),
+                              fontSize: width * 0.035,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFF64748B)),
                         ),
                         const SizedBox(height: 8.0),
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12.0, horizontal: 10.0),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF8FAFC), // Background abu-abu muda untuk read-only
-                            border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                            color: const Color(
+                                0xFFF8FAFC), // Background abu-abu muda untuk read-only
+                            border: Border.all(
+                                color: const Color(0xFFE2E8F0), width: 1.0),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.calendar_month, size: height * 0.02, color: const Color(0xFF64748B)),
+                              Icon(Icons.calendar_month,
+                                  size: height * 0.02,
+                                  color: const Color(0xFF64748B)),
                               SizedBox(width: width * 0.02),
                               Text(
                                 "${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}",
@@ -424,14 +438,18 @@ Future<void> _fetchData() async {
                       ],
                     ),
                   ),
-                  SizedBox(height: height * 0.02,),
-                                    Container(
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                      border: Border.all(
+                          color: const Color(0xFFE2E8F0), width: 1.0),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -439,21 +457,27 @@ Future<void> _fetchData() async {
                         Text(
                           "Tanggal Lahir Anak",
                           style: GoogleFonts.poppins(
-                              fontSize: width * 0.035, fontWeight: FontWeight.w500, color: const Color(0xFF64748B)),
+                              fontSize: width * 0.035,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFF64748B)),
                         ),
                         const SizedBox(height: 8.0),
                         InkWell(
                           onTap: () => _selectBirthDate(context),
                           child: Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 10.0),
                             decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                              border: Border.all(
+                                  color: const Color(0xFFE2E8F0), width: 1.0),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
                               children: [
-                                Icon(Icons.calendar_today, size: height * 0.02, color: const Color(0xFF64748B)),
+                                Icon(Icons.calendar_today,
+                                    size: height * 0.02,
+                                    color: const Color(0xFF64748B)),
                                 SizedBox(width: width * 0.02),
                                 Text(
                                   _selectedBirthDate == null
@@ -474,19 +498,26 @@ Future<void> _fetchData() async {
                       ],
                     ),
                   ),
-                  SizedBox(height: height * 0.02,),
-                  Text("Identitas", style: GoogleFonts.poppins(
-                      fontSize: width * 0.04,
-                      fontWeight: FontWeight.w600
-                  ),),
-                  SizedBox(height: height * 0.02,),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Text(
+                    "Identitas",
+                    style: GoogleFonts.poppins(
+                        fontSize: width * 0.04, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                      border: Border.all(
+                          color: const Color(0xFFE2E8F0), width: 1.0),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18, vertical: 18),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -509,21 +540,26 @@ Future<void> _fetchData() async {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF64748B), width: 1.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF64748B), width: 1.0),
                             ),
-                            contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
-                        SizedBox(height: height * 0.02,),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
                         Text(
                           "Nama Anak",
                           style: GoogleFonts.poppins(
@@ -542,22 +578,27 @@ Future<void> _fetchData() async {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF64748B), width: 1.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF64748B), width: 1.0),
                             ),
-                            contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
-                        SizedBox(height: height * 0.02,),
-                            Text(
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        Text(
                           "Umur",
                           style: GoogleFonts.poppins(
                             color: Colors.black,
@@ -592,17 +633,21 @@ Future<void> _fetchData() async {
                                   fillColor: const Color(0xFFF8FAFC),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 10.0),
                                 ),
                               ),
                             ),
@@ -629,23 +674,29 @@ Future<void> _fetchData() async {
                                   fillColor: const Color(0xFFF8FAFC),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 10.0),
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: height * 0.01,),
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
                         Text(
                           "BB/TB",
                           style: GoogleFonts.poppins(
@@ -679,18 +730,21 @@ Future<void> _fetchData() async {
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFF64748B), width: 1.0),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFF64748B), width: 1.0),
                                   ),
-                                  contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 10.0),
                                 ),
                               ),
                             ),
@@ -715,18 +769,21 @@ Future<void> _fetchData() async {
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFE2E8F0)),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: const BorderSide(color: Color(0xFF64748B), width: 1.0),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFF64748B), width: 1.0),
                                   ),
-                                  contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 10.0),
                                 ),
                               ),
                             ),
@@ -770,7 +827,8 @@ Future<void> _fetchData() async {
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
                                     child: _selectedGender == 'Laki-laki'
-                                        ? const Icon(Icons.check, size: 18, color: Colors.white)
+                                        ? const Icon(Icons.check,
+                                            size: 18, color: Colors.white)
                                         : null,
                                   ),
                                   SizedBox(width: width * 0.02),
@@ -811,7 +869,8 @@ Future<void> _fetchData() async {
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
                                     child: _selectedGender == 'Perempuan'
-                                        ? const Icon(Icons.check, size: 18, color: Colors.white)
+                                        ? const Icon(Icons.check,
+                                            size: 18, color: Colors.white)
                                         : null,
                                   ),
                                   SizedBox(width: width * 0.02),
@@ -834,106 +893,125 @@ Future<void> _fetchData() async {
                 ],
               ),
             ),
-            SizedBox(height: height * 0.02,), // Space above the buttons
+            SizedBox(
+              height: height * 0.02,
+            ), // Space above the buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child:ElevatedButton(
-                    onPressed: ButtonActive ? () {
-                      showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text(
-                                      'Apakah Anda yakin?',
-                                      style: TextStyle(color: Colors.red), // Judul merah
-                                    ),
-                                    content: const Text(
-                                      'Aksi ini akan menghapus data Anak. Tindakan ini tidak dapat dikembalikan lagi.',
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop(); // Tutup dialog
-                                        },
-                                        child: Text(
-                                                  "Tidak",
-                                                  style: GoogleFonts.poppins(
-                                                    color: const Color(0xFF020617),
-                                                    fontSize: width * 0.035,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ), // "Kembali" biru,
+                    child: ElevatedButton(
+                  onPressed: ButtonActive
+                      ? () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text(
+                                  'Apakah Anda yakin?',
+                                  style: TextStyle(
+                                      color: Colors.red), // Judul merah
+                                ),
+                                content: const Text(
+                                  'Aksi ini akan menghapus data Anak. Tindakan ini tidak dapat dikembalikan lagi.',
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Tutup dialog
+                                    },
+                                    child: Text(
+                                      "Tidak",
+                                      style: GoogleFonts.poppins(
+                                        color: const Color(0xFF020617),
+                                        fontSize: width * 0.035,
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                      TextButton(
-                                        onPressed: () {
-                                          String? id = widget.id;
-                                          _DeleteAnak(id!);
-                                        },
-                                        child: Text(
-                                          'Ya, Kembali',
-                                          style: GoogleFonts.poppins(color: Colors.red, fontSize: width*0.035, fontWeight: FontWeight.w500 ), // "Ya" merah
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
+                                    ), // "Kembali" biru,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      String? id = widget.id;
+                                      _DeleteAnak(id!);
+                                    },
+                                    child: Text(
+                                      'Ya, Kembali',
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.red,
+                                          fontSize: width * 0.035,
+                                          fontWeight:
+                                              FontWeight.w500), // "Ya" merah
+                                    ),
+                                  ),
+                                ],
                               );
-                    } : null, // Tombol tidak bisa ditekan saat `onPressed` adalah `null`
-                    style: ElevatedButton.styleFrom(
-                      // Properti `backgroundColor` juga bisa diatur secara dinamis
-                      backgroundColor: ButtonActive ? const Color.fromARGB(255, 244, 2, 2) : Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      elevation: 0,
+                            },
+                          );
+                        }
+                      : null, // Tombol tidak bisa ditekan saat `onPressed` adalah `null`
+                  style: ElevatedButton.styleFrom(
+                    // Properti `backgroundColor` juga bisa diatur secara dinamis
+                    backgroundColor: ButtonActive
+                        ? const Color.fromARGB(255, 244, 2, 2)
+                        : Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Text(
-                      "Hapus Data",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: width * 0.035,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    "Hapus Data",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: width * 0.035,
+                      fontWeight: FontWeight.w500,
                     ),
-                  )
-                ),
-                SizedBox(width: width * 0.02,), // Space between buttons
+                  ),
+                )),
+                SizedBox(
+                  width: width * 0.02,
+                ), // Space between buttons
                 Expanded(
-                  child:ElevatedButton(
-                    onPressed: ButtonActive ? () {
-                      _saveDataToModel();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => EditRecapII()),
-                      );
-                      print('Lanjut ke halaman berikutnya dengan data tersimpan.');
-                    } : null, // Tombol tidak bisa ditekan saat `onPressed` adalah `null`
-                    style: ElevatedButton.styleFrom(
-                      // Properti `backgroundColor` juga bisa diatur secara dinamis
-                      backgroundColor: ButtonActive ? const Color(0xFF9FC86A) : Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      elevation: 0,
+                    child: ElevatedButton(
+                  onPressed: ButtonActive
+                      ? () {
+                          _saveDataToModel();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditRecapII()),
+                          );
+                          print(
+                              'Lanjut ke halaman berikutnya dengan data tersimpan.');
+                        }
+                      : null, // Tombol tidak bisa ditekan saat `onPressed` adalah `null`
+                  style: ElevatedButton.styleFrom(
+                    // Properti `backgroundColor` juga bisa diatur secara dinamis
+                    backgroundColor:
+                        ButtonActive ? const Color(0xFF9FC86A) : Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: Text(
-                      "Selanjutnya",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: width * 0.035,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    "Selanjutnya",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: width * 0.035,
+                      fontWeight: FontWeight.w500,
                     ),
-                  )
-                ),
+                  ),
+                )),
               ],
             ),
-            SizedBox(height: height * 0.06,),
+            SizedBox(
+              height: height * 0.06,
+            ),
           ],
         ),
       ),

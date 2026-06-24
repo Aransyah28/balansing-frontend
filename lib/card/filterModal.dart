@@ -3,13 +3,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:balansing/providers/KaderProvider.dart'; 
+import 'package:balansing/providers/KaderProvider.dart';
 import 'package:balansing/models/filter_model.dart';
 
 // Daftar nama bulan dalam bahasa Indonesia
 const List<String> _monthNames = [
-  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+  'Januari',
+  'Februari',
+  'Maret',
+  'April',
+  'Mei',
+  'Juni',
+  'Juli',
+  'Agustus',
+  'September',
+  'Oktober',
+  'November',
+  'Desember'
 ];
 
 class ChildStatusData {
@@ -19,6 +29,8 @@ class ChildStatusData {
 }
 
 class FilterModalContent extends StatefulWidget {
+  const FilterModalContent({super.key});
+
   @override
   _FilterModalContentState createState() => _FilterModalContentState();
 }
@@ -98,9 +110,12 @@ class _FilterModalContentState extends State<FilterModalContent> {
               children: [
                 TextButton(
                   onPressed: () {
-                    final filterModel = Provider.of<FilterModel>(context, listen: false);
-                    final riwayatProvider = Provider.of<RiwayatProvider>(context, listen: false);
-                    final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+                    final filterModel =
+                        Provider.of<FilterModel>(context, listen: false);
+                    final riwayatProvider =
+                        Provider.of<RiwayatProvider>(context, listen: false);
+                    final dashboardProvider =
+                        Provider.of<DashboardProvider>(context, listen: false);
 
                     filterModel.setFilter(false);
                     filterModel.setMonth(DateTime.now().month);
@@ -120,9 +135,12 @@ class _FilterModalContentState extends State<FilterModalContent> {
                 const SizedBox(width: 16),
                 ElevatedButton(
                   onPressed: () {
-                    final filterModel = Provider.of<FilterModel>(context, listen: false);
-                    final riwayatProvider = Provider.of<RiwayatProvider>(context, listen: false);
-                    final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+                    final filterModel =
+                        Provider.of<FilterModel>(context, listen: false);
+                    final riwayatProvider =
+                        Provider.of<RiwayatProvider>(context, listen: false);
+                    final dashboardProvider =
+                        Provider.of<DashboardProvider>(context, listen: false);
 
                     filterModel.setFilter(true);
                     filterModel.setMonth(_selectedMonth);
@@ -134,10 +152,8 @@ class _FilterModalContentState extends State<FilterModalContent> {
                       _selectedYear,
                       _selectedCount,
                     );
-                    
-                    dashboardProvider.filterDashboardData(filterModel);
 
-                    
+                    dashboardProvider.filterDashboardData(filterModel);
 
                     Navigator.pop(context);
                   },
@@ -147,9 +163,11 @@ class _FilterModalContentState extends State<FilterModalContent> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12),
                   ),
-                  child: Text('Filter', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
+                  child: Text('Filter',
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
@@ -159,8 +177,9 @@ class _FilterModalContentState extends State<FilterModalContent> {
     );
   }
 
-  Widget _buildDropdown(String label, int value,
-      Function(int?) onChanged, List<int> items, {bool isMonth = false}) {
+  Widget _buildDropdown(
+      String label, int value, Function(int?) onChanged, List<int> items,
+      {bool isMonth = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -173,7 +192,7 @@ class _FilterModalContentState extends State<FilterModalContent> {
         ),
         const SizedBox(height: 8),
         DropdownButtonFormField<int>(
-          value: value,
+          initialValue: value,
           onChanged: onChanged,
           dropdownColor: Colors.white,
           decoration: InputDecoration(
@@ -192,7 +211,8 @@ class _FilterModalContentState extends State<FilterModalContent> {
             contentPadding: const EdgeInsets.symmetric(horizontal: 16),
           ),
           items: items.map<DropdownMenuItem<int>>((int item) {
-            final displayText = isMonth ? _monthNames[item - 1] : item.toString();
+            final displayText =
+                isMonth ? _monthNames[item - 1] : item.toString();
             return DropdownMenuItem<int>(
               value: item,
               child: Text(

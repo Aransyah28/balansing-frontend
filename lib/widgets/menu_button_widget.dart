@@ -20,23 +20,23 @@ class MenuWidget extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return Container(
+    return SizedBox(
       width: width * 0.9,
       height: height * 0.17,
       child: ElevatedButton(
         style: ButtonStyle(
-          padding: MaterialStateProperty.all<EdgeInsets>(
+          padding: WidgetStateProperty.all<EdgeInsets>(
             EdgeInsets.symmetric(horizontal: 16.0),
           ),
-          minimumSize: MaterialStateProperty.all<Size>(
+          minimumSize: WidgetStateProperty.all<Size>(
             Size(200, 50),
           ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
-          backgroundColor: MaterialStateProperty.all<Color>(
+          backgroundColor: WidgetStateProperty.all<Color>(
             const Color.fromARGB(255, 238, 238, 238),
           ),
         ),
@@ -48,19 +48,19 @@ class MenuWidget extends StatelessWidget {
             Container(
               height: width * 0.12,
               width: width * 0.12,
-              child: Image.asset(
-                image,
-                fit: BoxFit.contain,
-              ),
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 142, 196, 56),
                 borderRadius: BorderRadius.all(
                   Radius.circular(width * 0.04),
                 ),
               ),
+              child: Image.asset(
+                image,
+                fit: BoxFit.contain,
+              ),
             ),
             SizedBox(width: width * 0.05),
-            Container(
+            SizedBox(
               width: width * 0.57,
               height: height * 0.16,
               child: Column(

@@ -50,16 +50,15 @@ class _EditRecapIIState extends State<EditRecapII> {
   // Mengubah nama fungsi dan properti state agar lebih jelas (Merah Segar = !Pucat)
   void _loadInitialGejalaData() {
     final AnakKader anakKaderData = _anakKaderDataManager.getData();
-    
+
     // Memuat data dari model ke state lokal form
-    _isKonjungtivitaPucat = anakKaderData.konjungtivitaNormal == null 
-        ? null 
+    _isKonjungtivitaPucat = anakKaderData.konjungtivitaNormal == null
+        ? null
         : !anakKaderData.konjungtivitaNormal!;
-        
-    _isKukuRapuh = anakKaderData.kukuBersih == null 
-        ? null 
-        : !anakKaderData.kukuBersih!;
-        
+
+    _isKukuRapuh =
+        anakKaderData.kukuBersih == null ? null : !anakKaderData.kukuBersih!;
+
     _isTampakLemas = anakKaderData.tampakLemas;
     _isTampakPucat = anakKaderData.tampakPucat;
     _hasRiwayatAnemia = anakKaderData.riwayatAnemia;
@@ -78,10 +77,11 @@ class _EditRecapIIState extends State<EditRecapII> {
       beratBadan: current.beratBadan,
       tinggiBadan: current.tinggiBadan,
       jenisKelamin: current.jenisKelamin,
-      id: current.id, 
-      
+      id: current.id,
+
       // Update data gejala
-      konjungtivitaNormal: _isKonjungtivitaPucat != null ? !_isKonjungtivitaPucat! : null,
+      konjungtivitaNormal:
+          _isKonjungtivitaPucat != null ? !_isKonjungtivitaPucat! : null,
       kukuBersih: _isKukuRapuh != null ? !_isKukuRapuh! : null,
       tampakLemas: _isTampakLemas,
       tampakPucat: _isTampakPucat,
@@ -92,11 +92,11 @@ class _EditRecapIIState extends State<EditRecapII> {
   // Menggunakan getter untuk menentukan apakah tombol harus aktif
   bool get _isButtonActive {
     return _isKonjungtivitaPucat != null &&
-           _isKukuRapuh != null &&
-           _isTampakLemas != null &&
-           _isTampakPucat != null &&
-           _hasRiwayatAnemia != null &&
-           !_isLoading;
+        _isKukuRapuh != null &&
+        _isTampakLemas != null &&
+        _isTampakPucat != null &&
+        _hasRiwayatAnemia != null &&
+        !_isLoading;
   }
 
   // Fungsi Submit disederhanakan dan dipastikan berada dalam blok try-catch-finally
@@ -106,12 +106,12 @@ class _EditRecapIIState extends State<EditRecapII> {
     setState(() {
       _isLoading = true;
     });
-    
+
     final AnakKader anakKaderData = _anakKaderDataManager.getData();
     // 1. Kumpulkan data terbaru
     AnakKader updatedAnakKader = _collectGejalaDataForAnakKader(anakKaderData);
-    updatedAnakKader.email = User.instance.email; 
-    
+    updatedAnakKader.email = User.instance.email;
+
     // 2. Update DataManager sebelum dikirim (opsional, tapi mengikuti pola lama)
     _anakKaderDataManager.currentAnakKader = updatedAnakKader;
 
@@ -121,7 +121,8 @@ class _EditRecapIIState extends State<EditRecapII> {
 
       // 4. Reset dan Update Provider (pastikan RiwayatProvider tersedia)
       anakKaderData.reset();
-      final riwayatProvider = Provider.of<RiwayatProvider>(context, listen: false);
+      final riwayatProvider =
+          Provider.of<RiwayatProvider>(context, listen: false);
 
       if (_filterModel.filter) {
         riwayatProvider.filterChildrenByMonth(
@@ -139,10 +140,9 @@ class _EditRecapIIState extends State<EditRecapII> {
           const SnackBar(content: Text('Data berhasil diubah!')),
         );
         // 6. Navigasi kembali (setelah sukses)
-        Navigator.pop(context); 
+        Navigator.pop(context);
         Navigator.pop(context);
       }
-      
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -165,12 +165,11 @@ class _EditRecapIIState extends State<EditRecapII> {
     required String question,
     required String labelForTrue,
     required String labelForFalse,
-    required bool? groupValue, 
-    required ValueChanged<bool?> onChanged, 
+    required bool? groupValue,
+    required ValueChanged<bool?> onChanged,
     required double width,
     required double height,
-  })
-  {
+  }) {
     // Menggunakan groupValue langsung untuk menentukan warna
     const Color activeColor = Color(0xFF9FC86A);
     const Color activeBgColor = Color(0xFFF4F9EC);
@@ -179,7 +178,8 @@ class _EditRecapIIState extends State<EditRecapII> {
     const Color questionColor = Color(0xFF64748B);
 
     // Mematikan fungsi `onChanged` saat loading
-    final ValueChanged<bool?> radioOnChanged = _isLoading ? (value) {} : onChanged;
+    final ValueChanged<bool?> radioOnChanged =
+        _isLoading ? (value) {} : onChanged;
 
     Widget buildOption({required bool value, required String label}) {
       final isActive = groupValue == value;
@@ -250,7 +250,7 @@ class _EditRecapIIState extends State<EditRecapII> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     const Color primaryColor = Color(0xFF9FC86A);
-    
+
     // Menggunakan WillPopScope untuk memblokir navigasi saat loading
     return WillPopScope(
       onWillPop: () async => !_isLoading,
@@ -262,7 +262,9 @@ class _EditRecapIIState extends State<EditRecapII> {
             Container(
               color: Colors.white,
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.03), // Padding disesuaikan
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.05,
+                  vertical: height * 0.03), // Padding disesuaikan
               child: Column(
                 children: [
                   Expanded(
@@ -270,53 +272,59 @@ class _EditRecapIIState extends State<EditRecapII> {
                       key: _formKey,
                       child: ListView(
                         // Menggunakan padding top untuk menghindari status bar
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10),
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).padding.top + 10),
                         children: [
                           // Header
                           _buildHeader(context, width, height),
-                          
+
                           SizedBox(height: height * 0.02),
-                          
+
                           // Judul Form
                           Text(
                             "Tambah Data",
-                            style: GoogleFonts.poppins(fontSize: width * 0.06, fontWeight: FontWeight.w600),
+                            style: GoogleFonts.poppins(
+                                fontSize: width * 0.06,
+                                fontWeight: FontWeight.w600),
                           ),
                           Text(
                             "Data anak ke-1",
                             style: GoogleFonts.poppins(
-                                fontSize: width * 0.035, fontWeight: FontWeight.w400, color: const Color(0xFF64748B)),
+                                fontSize: width * 0.035,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF64748B)),
                           ),
-                          
+
                           SizedBox(height: height * 0.03),
 
                           // Bagian Gejala
                           Text(
                             "Gejala",
-                            style: GoogleFonts.poppins(fontSize: width * 0.04, fontWeight: FontWeight.w600),
+                            style: GoogleFonts.poppins(
+                                fontSize: width * 0.04,
+                                fontWeight: FontWeight.w600),
                           ),
                           SizedBox(height: height * 0.02),
-                          
+
                           // Kotak Form Gejala
                           _buildGejalaFormContainer(width, height),
                         ],
                       ),
                     ),
                   ),
-                  
+
                   SizedBox(height: height * 0.02),
-                  
+
                   // Tombol Submit
                   _buildSubmitButton(width, primaryColor),
-                  
+
                   SizedBox(height: height * 0.04),
                 ],
               ),
             ),
-            
+
             // Loading Overlay
-            if (_isLoading)
-              _buildLoadingOverlay(width),
+            if (_isLoading) _buildLoadingOverlay(width),
           ],
         ),
       ),
@@ -396,7 +404,8 @@ class _EditRecapIIState extends State<EditRecapII> {
           // Konjungtiva: Merah Segar (false) vs Pucat (true)
           _buildRadioRow(
             title: "Konjungtiva",
-            question: "Saat kelopak mata bawah ditarik perlahan, apakah warnanya merah segar?",
+            question:
+                "Saat kelopak mata bawah ditarik perlahan, apakah warnanya merah segar?",
             labelForTrue: "Merah Segar",
             labelForFalse: "Pucat",
             groupValue: _isKonjungtivitaPucat,
@@ -461,7 +470,7 @@ class _EditRecapIIState extends State<EditRecapII> {
       ),
     );
   }
-  
+
   Widget _buildSubmitButton(double width, Color primaryColor) {
     return Row(
       children: [
@@ -476,23 +485,22 @@ class _EditRecapIIState extends State<EditRecapII> {
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               elevation: 0,
             ),
-            child: _isLoading 
-              ? const SizedBox(
-                  width: 20, 
-                  height: 20, 
-                  child: CircularProgressIndicator(
-                    color: Colors.white, 
-                    strokeWidth: 3,
-                  )
-                )
-              : Text(
-                  "Update Data",
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: width * 0.035,
-                    fontWeight: FontWeight.w500,
+            child: _isLoading
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 3,
+                    ))
+                : Text(
+                    "Update Data",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: width * 0.035,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
           ),
         ),
       ],
@@ -501,9 +509,9 @@ class _EditRecapIIState extends State<EditRecapII> {
 
   Widget _buildLoadingOverlay(double width) {
     const Color loadingColor = Color(0xFF9FC86A);
-    
+
     return Material(
-      color: Colors.black.withOpacity(0.3),
+      color: Colors.black.withValues(alpha: 0.3),
       child: Center(
         child: Container(
           padding: const EdgeInsets.all(24),

@@ -34,13 +34,11 @@ class _IbuQuizManagerVScreenState extends State<IbuQuizManagerVScreen> {
 
   void _addAnswersToHistory() {
     _scoreManager.addAnswerHistory(
-      question: "Kapan Saja si Kecil menyikat gigi?",
-      userAnswer : """
+        question: "Kapan Saja si Kecil menyikat gigi?", userAnswer: """
         'Saat mandi pagi': $_isMorningSelected,
         'Setelah makan siang': $_isAfternoonSelected,
         'Sebelum tidur malam': $_isEveningSelected,
-      """
-    );
+      """);
   }
 
   // Check if all questions have been answered
@@ -94,13 +92,14 @@ class _IbuQuizManagerVScreenState extends State<IbuQuizManagerVScreen> {
             LinearProgressIndicator(
               value: 5 / 9,
               backgroundColor: const Color(0xFFF1F5F9),
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFB1D581)),
+              valueColor:
+                  const AlwaysStoppedAnimation<Color>(Color(0xFFB1D581)),
               minHeight: height * 0.012,
               borderRadius: BorderRadius.circular(10),
             ),
             SizedBox(height: height * 0.02),
 
-             Text(
+            Text(
               "Kapan Saja si Kecil menyikat gigi?",
               style: GoogleFonts.poppins(
                   fontSize: width * 0.05, fontWeight: FontWeight.w600),
@@ -123,7 +122,8 @@ class _IbuQuizManagerVScreenState extends State<IbuQuizManagerVScreen> {
             SizedBox(height: height * 0.02),
             QuizQuestion(
               question: '3. Sebelum tidur malam',
-              onAnswer: (isYes) => _onAnswerSelected('Sebelum tidur malam', isYes),
+              onAnswer: (isYes) =>
+                  _onAnswerSelected('Sebelum tidur malam', isYes),
               selectedAnswer: _isEveningSelected,
             ),
             // --- End of Questions Section ---
@@ -178,13 +178,15 @@ class _IbuQuizManagerVScreenState extends State<IbuQuizManagerVScreen> {
                             _scoreManager.addScore(currentScore);
                             _addAnswersToHistory();
                             print('Total poin yang ditambahkan: $currentScore');
-                            print('Total skor keseluruhan: ${_scoreManager.totalScore}');
-                            
+                            print(
+                                'Total skor keseluruhan: ${_scoreManager.totalScore}');
+
                             Navigator.pop(context);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder:     (context) => const IbuQuizManagerVIScreen()),
+                                  builder: (context) =>
+                                      const IbuQuizManagerVIScreen()),
                             );
                           }
                         : null,
@@ -260,9 +262,9 @@ class QuizQuestion extends StatelessWidget {
         SizedBox(height: width * 0.02),
         Row(
           children: [
-            Container(
-              width: width*0.22,
-              height: height*0.055,
+            SizedBox(
+              width: width * 0.22,
+              height: height * 0.055,
               child: _buildChoiceButton(
                 context,
                 label: '(A) Ya',
@@ -271,9 +273,9 @@ class QuizQuestion extends StatelessWidget {
               ),
             ),
             SizedBox(width: width * 0.02),
-            Container(
-              width: width*0.22,
-              height: height*0.055,
+            SizedBox(
+              width: width * 0.22,
+              height: height * 0.055,
               child: _buildChoiceButton(
                 context,
                 label: '(B) Tidak',
@@ -288,8 +290,10 @@ class QuizQuestion extends StatelessWidget {
   }
 
   Widget _buildChoiceButton(BuildContext context,
-      {required String label, required bool isSelected, required VoidCallback onTap}) {
-    double width = MediaQuery.of(context).size.width;    
+      {required String label,
+      required bool isSelected,
+      required VoidCallback onTap}) {
+    double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -298,7 +302,8 @@ class QuizQuestion extends StatelessWidget {
           color: isSelected ? const Color(0xFFF4F9EC) : Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? const Color(0xFFB1D581) : const Color(0xFFE2E8F0),
+            color:
+                isSelected ? const Color(0xFFB1D581) : const Color(0xFFE2E8F0),
             width: isSelected ? 2.0 : 1.0,
           ),
         ),
@@ -306,9 +311,11 @@ class QuizQuestion extends StatelessWidget {
           child: Text(
             label,
             style: GoogleFonts.poppins(
-              fontSize: width*0.035,
+              fontSize: width * 0.035,
               fontWeight: FontWeight.w600,
-              color: isSelected ? const Color(0xFF454545) : const Color(0xFF454545),
+              color: isSelected
+                  ? const Color(0xFF454545)
+                  : const Color(0xFF454545),
             ),
           ),
         ),

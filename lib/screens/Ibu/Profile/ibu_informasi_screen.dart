@@ -28,7 +28,8 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
   final TextEditingController _alamatController = TextEditingController();
 
   final IbuServices _kaderServices = IbuServices();
-  String _kaderProfileRawData = "Loading..."; // Tetap bisa digunakan untuk debugging
+  String _kaderProfileRawData =
+      "Loading..."; // Tetap bisa digunakan untuk debugging
 
   // --- State untuk mengontrol status tombol (jika diperlukan, misal untuk validasi) ---
   bool _isButtonEnabled = false;
@@ -56,7 +57,8 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
   Future<void> _fetchKaderProfile() async {
     try {
       if (User.instance.email.isNotEmpty) {
-        Map<String, dynamic> data = await _kaderServices.getIbu(User.instance.email);
+        Map<String, dynamic> data =
+            await _kaderServices.getIbu(User.instance.email);
         print(data);
 
         setState(() {
@@ -69,8 +71,10 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
           _kotaController.text = data['kota'] ?? '';
           _kecamatanController.text = data['kecamatan'] ?? '';
           _kelurahanController.text = data['kelurahan'] ?? '';
-          _rtController.text = data['rt']?.toString() ?? ''; // Pastikan RT/RW dalam string
-          _rwController.text = data['rw']?.toString() ?? ''; // Pastikan RT/RW dalam string
+          _rtController.text =
+              data['rt']?.toString() ?? ''; // Pastikan RT/RW dalam string
+          _rwController.text =
+              data['rw']?.toString() ?? ''; // Pastikan RT/RW dalam string
           _alamatController.text = data['alamat'] ?? '';
         });
         print("Kader Profile Data: $data");
@@ -107,7 +111,7 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
         _alamatController.text = 'Gagal memuat';
       });
       print('Error fetching kader profile: $e');
-      print(_kaderProfileRawData); 
+      print(_kaderProfileRawData);
     }
   }
 
@@ -117,25 +121,30 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
         'email': User.instance.email,
         'nama': _namaController.text,
         'usia': int.tryParse(_usiaController.text) ?? 0,
-        'noTelp' : _noHandphoneController.text,
+        'noTelp': _noHandphoneController.text,
         'provinsi': _provinsiController.text,
         'kota': _kotaController.text,
         'kecamatan': _kecamatanController.text,
         'kelurahan': _kelurahanController.text,
-        'rt': _rtController.text.isNotEmpty ? (_rtController.text) : null, // Pastikan RT/RW adalah integer
-        'rw': _rwController.text.isNotEmpty ? (_rwController.text) : null, // Pastikan RT/RW adalah integer
+        'rt': _rtController.text.isNotEmpty
+            ? (_rtController.text)
+            : null, // Pastikan RT/RW adalah integer
+        'rw': _rwController.text.isNotEmpty
+            ? (_rwController.text)
+            : null, // Pastikan RT/RW adalah integer
         'alamat': _alamatController.text
       };
 
       print(data);
-      Map<String, dynamic> response = await _kaderServices.updateIbu(User.instance.email, data);
-      Provider.of<ProfileProvider>(context, listen: false).fetchProfile(User.instance.email);
+      Map<String, dynamic> response =
+          await _kaderServices.updateIbu(User.instance.email, data);
+      Provider.of<ProfileProvider>(context, listen: false)
+          .fetchProfile(User.instance.email);
       print("Update Response: $response");
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Profil Ibu berhasil diperbarui!')),
       );
-
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Gagal memperbarui profil: $e')),
@@ -171,10 +180,10 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
     print("Kelurahan: ${_kelurahanController.text}");
     print("RT: ${_rtController.text}");
     print("RW: ${_rwController.text}");
-    print("Alamat: ${_alamatController} ");
+    print("Alamat: $_alamatController ");
     print("--------------------------");
 
-     _updateKaderProfile(); // Panggil update profil setiap kali ada perubahan
+    _updateKaderProfile(); // Panggil update profil setiap kali ada perubahan
 
     // Di sini Anda bisa menambahkan logika untuk menyimpan data ke database atau API
     // Misalnya:
@@ -276,11 +285,13 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                     ),
                   ),
                   SizedBox(height: height * 0.02),
-                   Container(
+                  Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(16.0), // Padding di dalam container input
+                    padding: const EdgeInsets.all(
+                        16.0), // Padding di dalam container input
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                      border: Border.all(
+                          color: const Color(0xFFE2E8F0), width: 1.0),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
@@ -304,17 +315,21 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
                         SizedBox(height: height * 0.02),
@@ -337,17 +352,21 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
                         SizedBox(height: height * 0.02),
@@ -370,31 +389,39 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
-                        SizedBox(height: height * 0.015), // Akhir dari padding di dalam container input
+                        SizedBox(
+                            height: height *
+                                0.015), // Akhir dari padding di dalam container input
                       ],
                     ),
                   ),
-                  
-                  SizedBox(height: height * 0.02,),
-                  
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(16.0), // Padding di dalam container input
+                    padding: const EdgeInsets.all(
+                        16.0), // Padding di dalam container input
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFFE2E8F0), width: 1.0),
+                      border: Border.all(
+                          color: const Color(0xFFE2E8F0), width: 1.0),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
@@ -418,17 +445,21 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
                         SizedBox(height: height * 0.02),
@@ -451,17 +482,21 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
                         SizedBox(height: height * 0.02),
@@ -484,17 +519,21 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
                         SizedBox(height: height * 0.02),
@@ -517,17 +556,21 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
                         SizedBox(height: height * 0.02),
@@ -551,17 +594,21 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
                         SizedBox(height: height * 0.02),
@@ -585,20 +632,24 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
-                         SizedBox(height: height * 0.02),
+                        SizedBox(height: height * 0.02),
                         Text(
                           "Alamat",
                           style: GoogleFonts.poppins(
@@ -618,20 +669,26 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
-                              enabledBorder: OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFFE2E8F0)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+                              borderSide: const BorderSide(
+                                  color: Color(0xFF9FC86A), width: 2.0),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
                           ),
                         ),
-                        SizedBox(height: height * 0.015), // Akhir dari padding di dalam container input
+                        SizedBox(
+                            height: height *
+                                0.015), // Akhir dari padding di dalam container input
                       ],
                     ),
                   ),
@@ -641,11 +698,14 @@ class _IbuInformasiScreenState extends State<IbuInformasiScreen> {
             // --- Tombol Simpan Perubahan (fixed di bagian bawah) ---
             SizedBox(height: height * 0.03), // Spasi antara ListView dan tombol
             ElevatedButton(
-              onPressed: _isButtonEnabled ? _handleSimpanPerubahan : null, // Tombol aktif jika _isButtonEnabled true
+              onPressed: _isButtonEnabled
+                  ? _handleSimpanPerubahan
+                  : null, // Tombol aktif jika _isButtonEnabled true
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF9FC86A), // Warna hijau #9FC86A
                 foregroundColor: Colors.white, // Warna tulisan putih
-                minimumSize: Size(width * 0.87, height * 0.05), // Lebar 90% dan tinggi 6% dari layar
+                minimumSize: Size(width * 0.87,
+                    height * 0.05), // Lebar 90% dan tinggi 6% dari layar
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Ujung melengkung
                 ),

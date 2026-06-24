@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:balansing/services/ibu_services.dart'; // Pastikan path ini benar
 
 class MakananRecomendationScreen extends StatefulWidget {
@@ -9,10 +9,12 @@ class MakananRecomendationScreen extends StatefulWidget {
   const MakananRecomendationScreen({super.key, required this.DDS});
 
   @override
-  State<MakananRecomendationScreen> createState() => _MakananRecomendationScreenState();
+  State<MakananRecomendationScreen> createState() =>
+      _MakananRecomendationScreenState();
 }
 
-class _MakananRecomendationScreenState extends State<MakananRecomendationScreen> {
+class _MakananRecomendationScreenState
+    extends State<MakananRecomendationScreen> {
   // Map untuk menyimpan nama tampilan dari setiap kategori
   final Map<String, String> _labelNames = {
     "makanan_berpati": "Sumber Karbohidrat",
@@ -25,7 +27,8 @@ class _MakananRecomendationScreenState extends State<MakananRecomendationScreen>
   };
 
   String _activeButton = 'Rekomendasi';
-  String _markdownRekomendasi = "Sedang memuat rekomendasi..."; // Teks awal sebelum loading
+  String _markdownRekomendasi =
+      "Sedang memuat rekomendasi..."; // Teks awal sebelum loading
   bool _isLoading = true;
   final IbuServices _ibuServices = IbuServices();
 
@@ -61,7 +64,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
     try {
       final result = await _ibuServices.generateKeberagamanMakanan(widget.DDS);
       setState(() {
-        _markdownRekomendasi = result["rekomendasi"] ?? "Gagal memuat rekomendasi.";
+        _markdownRekomendasi =
+            result["rekomendasi"] ?? "Gagal memuat rekomendasi.";
       });
     } catch (e) {
       setState(() {
@@ -88,20 +92,24 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
     if (ddsCount == 7) {
       status = "Sangat Beragam";
       warnaStatus = const Color(0xFF9FC86A);
-      deskripsi = "Sempurna, Bunda! Hari ini menu si Kecil sudah mencakup semua 7 kelompok pangan esensial. Pertahankan terus prestasi hebat ini untuk dukung tumbuh kembangnya!";
-    }
-    else if (ddsCount >= 5 && ddsCount < 7) {
+      deskripsi =
+          "Sempurna, Bunda! Hari ini menu si Kecil sudah mencakup semua 7 kelompok pangan esensial. Pertahankan terus prestasi hebat ini untuk dukung tumbuh kembangnya!";
+    } else if (ddsCount >= 5 && ddsCount < 7) {
       status = "Beragam";
       warnaStatus = const Color(0xFF9FC86A);
-      deskripsi = "Bagus sekali, Bunda! Hari ini si Kecil sudah mencapai target keberagaman pangan dengan $ddsCount dari 7 kelompok. Ini adalah fondasi yang kuat, yuk besok kita coba tambahkan 1 jenis makanan lagi!";
+      deskripsi =
+          "Bagus sekali, Bunda! Hari ini si Kecil sudah mencapai target keberagaman pangan dengan $ddsCount dari 7 kelompok. Ini adalah fondasi yang kuat, yuk besok kita coba tambahkan 1 jenis makanan lagi!";
     } else if (ddsCount >= 4 && ddsCount <= 4) {
       status = "Cukup Beragam";
       warnaStatus = const Color(0xFFFACC15);
-      deskripsi = "Bagus sekali, Bunda! Hari ini si Kecil sudah mencapai target minimal keberagaman pangan dengan $ddsCount dari 7 kelompok. Ini adalah fondasi yang kuat, yuk besok kita coba tambahkan 1 jenis makanan lagi!";
-    } else { // ddsCount <= 3
+      deskripsi =
+          "Bagus sekali, Bunda! Hari ini si Kecil sudah mencapai target minimal keberagaman pangan dengan $ddsCount dari 7 kelompok. Ini adalah fondasi yang kuat, yuk besok kita coba tambahkan 1 jenis makanan lagi!";
+    } else {
+      // ddsCount <= 3
       status = "Kurang Beragam";
       warnaStatus = const Color(0xFFDC2626);
-      deskripsi = "Semangat selalu ya, Bunda! Hari ini menu si Kecil mencakup $ddsCount dari 7 kelompok pangan. Mari kita mulai langkah pertama besok dengan mencoba menambahkan sepotong buah atau satu jenis sayuran hijau.";
+      deskripsi =
+          "Semangat selalu ya, Bunda! Hari ini menu si Kecil mencakup $ddsCount dari 7 kelompok pangan. Mari kita mulai langkah pertama besok dengan mencoba menambahkan sepotong buah atau satu jenis sayuran hijau.";
     }
 
     Widget buildButton(String buttonText, String activeState) {
@@ -172,7 +180,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
               SizedBox(height: height * 0.02),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                   border: Border.all(width: 1, color: const Color(0xFFE2E8F0)),
@@ -245,7 +254,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
               SizedBox(height: height * 0.02),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                   border: Border.all(width: 1, color: const Color(0xFFE2E8F0)),
@@ -270,9 +280,15 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                       itemBuilder: (context, index) {
                         String key = _labelNames.keys.elementAt(index);
                         bool isPresent = widget.DDS.contains(key);
-                        Color iconColor = isPresent ? const Color(0xFF9FC86A) : const Color(0xFFFACC15);
-                        Color textColor = isPresent ? const Color(0xFF64748B) : const Color(0xFFFACC15);
-                        IconData icon = isPresent ? Icons.check_circle_outline : Icons.info_outline;
+                        Color iconColor = isPresent
+                            ? const Color(0xFF9FC86A)
+                            : const Color(0xFFFACC15);
+                        Color textColor = isPresent
+                            ? const Color(0xFF64748B)
+                            : const Color(0xFFFACC15);
+                        IconData icon = isPresent
+                            ? Icons.check_circle_outline
+                            : Icons.info_outline;
                         return Container(
                           margin: EdgeInsets.only(bottom: height * 0.005),
                           child: Row(
@@ -301,7 +317,8 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
               ),
               SizedBox(height: height * 0.02),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
@@ -334,10 +351,11 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+                        border: Border.all(
+                            color: const Color(0xFFE2E8F0), width: 1),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.1),
+                            color: Colors.grey.withValues(alpha: 0.1),
                             spreadRadius: 1,
                             blurRadius: 5,
                             offset: const Offset(0, 3),
@@ -350,15 +368,19 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                               : MarkdownBody(
                                   data: _markdownRekomendasi,
                                   styleSheet: MarkdownStyleSheet(
-                                    h2: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 18),
+                                    h2: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
                                     p: GoogleFonts.poppins(fontSize: 14),
-                                    listBullet: GoogleFonts.poppins(fontSize: 14),
+                                    listBullet:
+                                        GoogleFonts.poppins(fontSize: 14),
                                   ),
                                 )
                           : MarkdownBody(
                               data: markdownArtikel,
                               styleSheet: MarkdownStyleSheet(
-                                h2: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 18),
+                                h2: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold, fontSize: 18),
                                 p: GoogleFonts.poppins(fontSize: 14),
                                 listBullet: GoogleFonts.poppins(fontSize: 14),
                               ),
@@ -368,7 +390,7 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                 ),
               ),
               SizedBox(height: height * 0.02),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {

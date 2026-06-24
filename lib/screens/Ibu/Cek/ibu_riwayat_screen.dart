@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-
 import 'package:balansing/card/RiwayatIbuCard.dart';
 import 'package:balansing/models/user_model.dart'; // Asumsikan Anda memiliki model User
 import 'package:balansing/providers/IbuProvider.dart'; // Sesuaikan path jika berbeda
@@ -23,8 +22,18 @@ class _IbuRiwayatScreenState extends State<IbuRiwayatScreen> {
 
   // Nama bulan dalam bahasa Indonesia
   final List<String> _monthNames = [
-    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli',
-    'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember'
   ];
 
   @override
@@ -49,134 +58,140 @@ class _IbuRiwayatScreenState extends State<IbuRiwayatScreen> {
 
   // Fungsi untuk menampilkan modal filter
   void _showFilterModal() {
-  final height = MediaQuery.of(context).size.height;
-  final width = MediaQuery.of(context).size.width;
-  showModalBottomSheet(
-    context: context,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-    ),
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.06, vertical: height * 0.03),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Pilih Bulan & Tahun',
-                  style: GoogleFonts.poppins(
-                    fontSize: width * 0.05,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: height * 0.02),
-                // Dropdown untuk Bulan
-                DropdownButtonFormField<int>(
-                  value: _selectedMonth,
-                  style: GoogleFonts.poppins(color: Colors.black),
-                  decoration: InputDecoration(
-                    labelText: 'Bulan',
-                    labelStyle: GoogleFonts.poppins(),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(width * 0.02),
-                      borderSide: const BorderSide(color: Color(0xFF9FC86A)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(width * 0.02),
-                      borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.06, vertical: height * 0.03),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Pilih Bulan & Tahun',
+                    style: GoogleFonts.poppins(
+                      fontSize: width * 0.05,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  dropdownColor: const Color(0xFFF4F9EC),
-                  items: List.generate(12, (index) {
-                    return DropdownMenuItem(
-                      value: index + 1,
-                      child: Text(
-                        _monthNames[index],
-                        style: GoogleFonts.poppins(),
-                      ),
-                    );
-                  }),
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _selectedMonth = value;
-                      });
-                    }
-                  },
-                ),
-                SizedBox(height: height * 0.02),
-                // Dropdown untuk Tahun
-                DropdownButtonFormField<int>(
-                  value: _selectedYear,
-                  style: GoogleFonts.poppins(color: Colors.black),
-                  decoration: InputDecoration(
-                    labelText: 'Tahun',
-                    labelStyle: GoogleFonts.poppins(),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(width * 0.02),
-                      borderSide: const BorderSide(color: Color(0xFF9FC86A)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(width * 0.02),
-                      borderSide: const BorderSide(color: Color(0xFF9FC86A), width: 2.0),
-                    ),
-                  ),
-                  dropdownColor: const Color(0xFFF4F9EC),
-                  items: List.generate(5, (index) {
-                    final year = DateTime.now().year - index;
-                    return DropdownMenuItem(
-                      value: year,
-                      child: Text(
-                        year.toString(),
-                        style: GoogleFonts.poppins(),
-                      ),
-                    );
-                  }),
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _selectedYear = value;
-                      });
-                    }
-                  },
-                ),
-                SizedBox(height: height * 0.03),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _fetchData();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFF4F9EC),
-                      side: const BorderSide(color: Color(0xFF9FC86A), width: 1.0),
-                      shape: RoundedRectangleBorder(
+                  SizedBox(height: height * 0.02),
+                  // Dropdown untuk Bulan
+                  DropdownButtonFormField<int>(
+                    initialValue: _selectedMonth,
+                    style: GoogleFonts.poppins(color: Colors.black),
+                    decoration: InputDecoration(
+                      labelText: 'Bulan',
+                      labelStyle: GoogleFonts.poppins(),
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(width * 0.02),
+                        borderSide: const BorderSide(color: Color(0xFF9FC86A)),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: height * 0.015),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(width * 0.02),
+                        borderSide: const BorderSide(
+                            color: Color(0xFF9FC86A), width: 2.0),
+                      ),
                     ),
-                    child: Text(
-                      'Terapkan',
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xFF9FC86A),
-                        fontWeight: FontWeight.bold,
+                    dropdownColor: const Color(0xFFF4F9EC),
+                    items: List.generate(12, (index) {
+                      return DropdownMenuItem(
+                        value: index + 1,
+                        child: Text(
+                          _monthNames[index],
+                          style: GoogleFonts.poppins(),
+                        ),
+                      );
+                    }),
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          _selectedMonth = value;
+                        });
+                      }
+                    },
+                  ),
+                  SizedBox(height: height * 0.02),
+                  // Dropdown untuk Tahun
+                  DropdownButtonFormField<int>(
+                    initialValue: _selectedYear,
+                    style: GoogleFonts.poppins(color: Colors.black),
+                    decoration: InputDecoration(
+                      labelText: 'Tahun',
+                      labelStyle: GoogleFonts.poppins(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(width * 0.02),
+                        borderSide: const BorderSide(color: Color(0xFF9FC86A)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(width * 0.02),
+                        borderSide: const BorderSide(
+                            color: Color(0xFF9FC86A), width: 2.0),
+                      ),
+                    ),
+                    dropdownColor: const Color(0xFFF4F9EC),
+                    items: List.generate(5, (index) {
+                      final year = DateTime.now().year - index;
+                      return DropdownMenuItem(
+                        value: year,
+                        child: Text(
+                          year.toString(),
+                          style: GoogleFonts.poppins(),
+                        ),
+                      );
+                    }),
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          _selectedYear = value;
+                        });
+                      }
+                    },
+                  ),
+                  SizedBox(height: height * 0.03),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _fetchData();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFF4F9EC),
+                        side: const BorderSide(
+                            color: Color(0xFF9FC86A), width: 1.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(width * 0.02),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: height * 0.015),
+                      ),
+                      child: Text(
+                        'Terapkan',
+                        style: GoogleFonts.poppins(
+                          color: const Color(0xFF9FC86A),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: height*0.03,)
-              ],
-            ),
-          );
-        },
-      );
-    },
-  );
-}
+                  SizedBox(
+                    height: height * 0.03,
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -321,7 +336,8 @@ class _IbuRiwayatScreenState extends State<IbuRiwayatScreen> {
                   if (recapProvider.isLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (recapProvider.errorMessage != null) {
-                    return Center(child: Text('Error: ${recapProvider.errorMessage}'));
+                    return Center(
+                        child: Text('Error: ${recapProvider.errorMessage}'));
                   } else if (recapProvider.monthlyRecaps.isEmpty) {
                     // 3. Menangani jika data kosong
                     return Column(

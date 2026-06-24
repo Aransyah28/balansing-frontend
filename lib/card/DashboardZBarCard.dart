@@ -11,7 +11,7 @@ class GrowthIndicatorCard extends StatelessWidget {
   final int count;
 
   const GrowthIndicatorCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     required this.zScore,
@@ -19,7 +19,7 @@ class GrowthIndicatorCard extends StatelessWidget {
     required this.imagePath,
     required this.width,
     required this.count,
-  }) : super(key: key);
+  });
 
   Color _getBarColor(double zScoreValue) {
     if (zScoreValue > -2) {
@@ -28,7 +28,7 @@ class GrowthIndicatorCard extends StatelessWidget {
       return Color(0xFFDC2626);
     } else if (zScoreValue <= -2) {
       return Color(0xFFFACC15);
-      }else{
+    } else {
       return Colors.grey;
     }
   }
@@ -36,7 +36,7 @@ class GrowthIndicatorCard extends StatelessWidget {
   double _getFillPercentage(double zScoreValue) {
     if (zScoreValue >= 5) return 1.0;
     if (zScoreValue <= -5) return 0.0;
-    
+
     // Normalize z-score from -3 to 3 to a 0-1 range
     return (zScoreValue + 5) / 10;
   }
@@ -58,7 +58,7 @@ class GrowthIndicatorCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             spreadRadius: 2,
             blurRadius: 10,
             offset: const Offset(0, 5),
@@ -71,23 +71,25 @@ class GrowthIndicatorCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column( mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                title,
-                style: GoogleFonts.poppins(
-                  fontSize: width * 0.033,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: width * 0.01),
-          Text(
-            value,
-            style: GoogleFonts.poppins(
-              fontSize: width * 0.04,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+                    title,
+                    style: GoogleFonts.poppins(
+                      fontSize: width * 0.033,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: width * 0.01),
+                  Text(
+                    value,
+                    style: GoogleFonts.poppins(
+                      fontSize: width * 0.04,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
               Image.asset(

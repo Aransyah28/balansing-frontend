@@ -9,14 +9,14 @@ class ProfileCard extends StatelessWidget {
   final bool checkable;
 
   const ProfileCard({
-    Key? key,
+    super.key,
     required this.name,
     required this.birthDate,
     required this.age,
     required this.gender,
     this.isSelected = false,
     this.checkable = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class ProfileCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -71,7 +71,8 @@ class ProfileCard extends StatelessWidget {
           ),
           SizedBox(width: horizontalSpacing),
           // Wrap the Column with Expanded to give it flexible space
-          Expanded( // <-- Perubahan di sini
+          Expanded(
+            // <-- Perubahan di sini
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -89,11 +90,14 @@ class ProfileCard extends StatelessWidget {
                   children: [
                     Icon(Icons.cake, size: iconSize, color: Colors.grey),
                     const SizedBox(width: 8),
-                    Expanded( // <-- Perubahan di sini
+                    Expanded(
+                      // <-- Perubahan di sini
                       child: Text(
                         birthDate,
-                        style: TextStyle(fontSize: subTextFontSize, color: Colors.grey),
-                        overflow: TextOverflow.ellipsis, // <-- Perubahan di sini
+                        style: TextStyle(
+                            fontSize: subTextFontSize, color: Colors.grey),
+                        overflow:
+                            TextOverflow.ellipsis, // <-- Perubahan di sini
                         maxLines: 1,
                       ),
                     ),
@@ -102,13 +106,17 @@ class ProfileCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(Icons.calendar_today, size: iconSize, color: Colors.grey),
+                    Icon(Icons.calendar_today,
+                        size: iconSize, color: Colors.grey),
                     const SizedBox(width: 8),
-                    Expanded( // <-- Perubahan di sini
+                    Expanded(
+                      // <-- Perubahan di sini
                       child: Text(
                         age,
-                        style: TextStyle(fontSize: subTextFontSize, color: Colors.grey),
-                        overflow: TextOverflow.ellipsis, // <-- Perubahan di sini
+                        style: TextStyle(
+                            fontSize: subTextFontSize, color: Colors.grey),
+                        overflow:
+                            TextOverflow.ellipsis, // <-- Perubahan di sini
                         maxLines: 1,
                       ),
                     ),
@@ -119,11 +127,14 @@ class ProfileCard extends StatelessWidget {
                   children: [
                     Icon(Icons.male, size: iconSize, color: Colors.grey),
                     const SizedBox(width: 8),
-                    Expanded( // <-- Perubahan di sini
+                    Expanded(
+                      // <-- Perubahan di sini
                       child: Text(
                         gender,
-                        style: TextStyle(fontSize: subTextFontSize, color: Colors.grey),
-                        overflow: TextOverflow.ellipsis, // <-- Perubahan di sini
+                        style: TextStyle(
+                            fontSize: subTextFontSize, color: Colors.grey),
+                        overflow:
+                            TextOverflow.ellipsis, // <-- Perubahan di sini
                         maxLines: 1,
                       ),
                     ),

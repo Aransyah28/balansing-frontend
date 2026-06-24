@@ -51,21 +51,25 @@ class _IbuQuizManagerVIScreen extends State<IbuQuizManagerIXScreen> {
             LinearProgressIndicator(
               value: 9 / 9,
               backgroundColor: const Color(0xFFF1F5F9),
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFB1D581)),
+              valueColor:
+                  const AlwaysStoppedAnimation<Color>(Color(0xFFB1D581)),
               minHeight: height * 0.012,
               borderRadius: BorderRadius.circular(10),
             ),
             SizedBox(height: height * 0.02),
-            Image.asset('assets/images/AirPutih.jpg', width: double.infinity,),
+            Image.asset(
+              'assets/images/AirPutih.jpg',
+              width: double.infinity,
+            ),
             SizedBox(height: height * 0.02),
             Text(
               "Apakah anda menggunakan air mineral untuk masak dan minum?",
               style: GoogleFonts.poppins(
                   fontSize: width * 0.045, fontWeight: FontWeight.w600),
             ),
-            
+
             // --- Bagian Opsi Tombol ---
-            
+
             SizedBox(height: height * 0.02),
             QuizOptionButton(
               label: '(A) Ya',
@@ -111,7 +115,8 @@ class _IbuQuizManagerVIScreen extends State<IbuQuizManagerIXScreen> {
                           width: 2.0,
                         ),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
                       backgroundColor: Colors.white,
                     ),
                     child: Row(
@@ -139,21 +144,25 @@ class _IbuQuizManagerVIScreen extends State<IbuQuizManagerIXScreen> {
                         : () {
                             print('Selanjutnya');
                             _scoreManager.addScore(_selectedOption ?? 0);
-                             _scoreManager.addAnswerHistory(
-                                question: "Apakah anda menggunakan air mineral untuk masak dan minum?",
-                                userAnswer: _selectedOption == 1 ? "Ya" : "Tidak",
+                            _scoreManager.addAnswerHistory(
+                              question:
+                                  "Apakah anda menggunakan air mineral untuk masak dan minum?",
+                              userAnswer: _selectedOption == 1 ? "Ya" : "Tidak",
                             );
                             Navigator.pop(context);
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const IbuQuizResultScreen()),
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const IbuQuizResultScreen()),
                             );
                           },
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
                       backgroundColor: _selectedOption == null
                           ? Colors.grey // Warna abu-abu jika dinonaktifkan
                           : const Color(0xFF9FC86A), // Warna hijau jika aktif
@@ -212,12 +221,13 @@ class QuizOptionButton extends StatelessWidget {
           color: isSelected ? const Color(0xFFF4F9EC) : Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? const Color(0xFFB1D581) : const Color(0xFFE2E8F0),
+            color:
+                isSelected ? const Color(0xFFB1D581) : const Color(0xFFE2E8F0),
             width: isSelected ? 2.0 : 1.0,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               spreadRadius: 1,
               blurRadius: 5,
               offset: const Offset(0, 3),

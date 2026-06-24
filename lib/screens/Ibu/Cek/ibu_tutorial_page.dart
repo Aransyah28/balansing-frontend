@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 class TutorialPage extends StatefulWidget {
   final String videoUrl;
@@ -117,7 +117,9 @@ class _TutorialPageState extends State<TutorialPage> {
               color: Colors.black,
             ),
           ),
-          SizedBox(height: height*0.01,),
+          SizedBox(
+            height: height * 0.01,
+          ),
           Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -139,12 +141,16 @@ class _TutorialPageState extends State<TutorialPage> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              _controller.value.isPlaying ? _controller.pause() : _controller.play();
+                              _controller.value.isPlaying
+                                  ? _controller.pause()
+                                  : _controller.play();
                             });
                           },
                           child: Icon(
-                            _controller.value.isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
-                            color: Colors.white.withOpacity(0.7),
+                            _controller.value.isPlaying
+                                ? Icons.pause_circle_filled
+                                : Icons.play_circle_fill,
+                            color: Colors.white.withValues(alpha: 0.7),
                             size: 50.0,
                           ),
                         ),
@@ -153,7 +159,8 @@ class _TutorialPageState extends State<TutorialPage> {
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF9FC86A)),
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Color(0xFF9FC86A)),
                       ),
                     );
                   }
@@ -201,7 +208,7 @@ class _TutorialPageState extends State<TutorialPage> {
                 border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: Colors.grey.withValues(alpha: 0.2),
                     spreadRadius: 2,
                     blurRadius: 5,
                     offset: const Offset(0, 3),
