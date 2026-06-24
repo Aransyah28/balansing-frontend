@@ -124,7 +124,7 @@ final ThemeData lightTheme = ThemeData(
     seedColor: Colors.deepPurple,
     brightness: Brightness.light,
   ),
-  textTheme: GoogleFonts.outfitTextTheme(),
+  textTheme: GoogleFonts.poppinsTextTheme(),
 );
 ```
 
