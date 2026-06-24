@@ -19,7 +19,7 @@ description: Panduan pembuatan dokumentasi JSDoc/Dartdoc untuk kode aplikasi Flu
       - Baris pertama adalah ringkasan yang jelas, diakhiri titik.
       - Paragraf berikutnya memberikan rincian mendalam.
       - Sebutkan argumen jika diperlukan (meskipun Dart memiliki sistem statis yang kuat).
-      - Jika ada exception spesifik yang dilempar fungsi, dokumentasikan menggunakan anotasi `Throws`.
+      - Jika ada exception spesifik yang dilempar fungsi, dokumentasikan dalam bentuk teks deskriptif (contoh: Throws [ExceptionType] jika...).
 
 3.  **Contoh Penulisan (Services):**
     ```dart
