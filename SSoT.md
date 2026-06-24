@@ -40,7 +40,7 @@ Untuk mengoptimalkan performa dan mempermudah pewarisan kode (code handover) kep
 
 1. **Trigger:** Pengguna berinteraksi dengan UI (misalnya menekan tombol "Deteksi Anemia").
 2. **Provider/Controller:** UI memanggil method di dalam file Provider (misal: `AnemiaProvider`).
-3. **Service (API):** Provider memanggil *Service layer* (`lib/services/`) yang menggunakan `Dio` atau `http` untuk fetch/post data ke Backend (`187.77.122.232` atau `.env`).
+3. **Service (API):** Provider memanggil *Service layer* (lib/services/) yang menggunakan Dio atau http untuk fetch/post data ke Backend (menggunakan konfigurasi dari .env).
 4. **State Update:** Service mengembalikan data, Provider memperbarui variablenya dan memanggil `notifyListeners()`.
 5. **UI Update:** Widget yang dibungkus oleh `Consumer<T>` atau memanggil `context.watch<T>()` akan *rebuild* secara otomatis tanpa merusak *widget tree* yang lain.
 
