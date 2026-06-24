@@ -130,7 +130,7 @@ final ThemeData lightTheme = ThemeData(
 
 ## Layout Best Practices
 * **Expanded:** Use to make a child widget fill the remaining available space along the main axis.
-* **Flexible:** Use when you want a widget to shrink to fit, but not necessarily grow. Don't combine `Flexible` and `Expanded` in the same `Row` or `Column`.
+* **Flexible:** Use when you want a widget to shrink to fit, but not necessarily grow. It is perfectly fine to combine Flexible and Expanded in the same Row or Column to mix tight and loose constraints.
 * **Wrap:** Use when you have a series of widgets that would overflow a `Row` or `Column`, and you want them to move to the next line.
 * **SingleChildScrollView:** Use when your content is intrinsically larger than the viewport, but is a fixed size.
 * **ListView / GridView:** For long lists or grids of content, always use a builder constructor (`.builder`).
