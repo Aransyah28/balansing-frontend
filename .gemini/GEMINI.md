@@ -1,0 +1,3 @@
+- **PRIORITAS UTAMA:** Sebelum memulai setiap tugas, wajib untuk membaca file `AGENTS.md` dan `SSoT.md` yang terletak di root direktori proyek (`C:\Users\Ariel\OneDrive\Dokumen\Kuliah\Penting diluar Matkul\Projek\Balansing\Balansing-FrontEnd\`).
+- **Kepatuhan Wajib:** Aturan yang didefinisikan dalam kedua file tersebut (mengenai latar belakang, kualitas kode, arsitektur, spesifikasi teknis, dan praktik terbaik) memiliki prioritas tertinggi dan harus diikuti secara ketat.
+- **Kesinambungan:** Pembacaan ini harus dilakukan pada setiap prompt dan sesi baru untuk memastikan semua output tetap konsisten dengan panduan proyek yang telah disepakati.
