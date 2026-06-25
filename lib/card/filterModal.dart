@@ -95,7 +95,7 @@ class _FilterModalContentState extends State<FilterModalContent> {
             ),
             const SizedBox(height: 16),
             _buildDropdown(
-              'Jumlah',
+              'Jumlah bulan ke belakang',
               _selectedCount,
               (newValue) {
                 setState(() {
