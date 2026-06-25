@@ -146,11 +146,11 @@ Future<List<dynamic>> cekMakanan(String filePath) async {
         return jsonDecode(response.body);
       } else {
         final Map<String, dynamic> errorBody = jsonDecode(response.body);
-        throw Exception('Gagal mendapatkan profil kader. Status: ${response.statusCode}, Pesan: ${errorBody['message'] ?? 'Tidak ada pesan error'}');
+        throw Exception(errorBody['message'] ?? errorBody['error'] ?? 'Gagal mendapatkan profil kader (Status ${response.statusCode})');
       }
     } catch (e) {
       print('Terjadi kesalahan saat mendapatkan profil kader: $e');
-      throw Exception('Terjadi kesalahan jaringan atau server: $e');
+      throw Exception('$e');
     }
   }
 
@@ -166,10 +166,13 @@ Future<List<dynamic>> cekMakanan(String filePath) async {
       );
 
       if (response.statusCode == 200) {
-        // Ubah tipe data dari `Map` menjadi `List<dynamic>`
-        final List<dynamic> responseData = jsonDecode(response.body);
-        // Konversi setiap item dalam list menjadi Map<String, dynamic>
-        return responseData.cast<Map<String, dynamic>>();
+        final decoded = jsonDecode(response.body);
+        if (decoded is List) {
+          return List<Map<String, dynamic>>.from(decoded.map((x) => Map<String, dynamic>.from(x)));
+        } else if (decoded is Map && decoded.containsKey('message')) {
+          return []; // Jika tidak ada anak, return list kosong
+        }
+        return [];
       } else {
         final Map<String, dynamic> errorBody = jsonDecode(response.body);
         throw Exception('Gagal mendapatkan recap kader. Status: ${response.statusCode}, Pesan: ${errorBody['message'] ?? 'Tidak ada pesan error'}');
@@ -296,10 +299,11 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
         return jsonDecode(response.body);
       } else {
         final Map<String, dynamic> errorBody = jsonDecode(response.body);
-        throw Exception('Gagal mengupload anak kader. Status: ${response.statusCode}, Pesan: ${errorBody['message'] ?? 'Tidak ada pesan error'}');
-      }}catch (e) {
-      print('Terjadi kesalahan saat memperbarui profil kader: $e');
-      throw Exception('Terjadi kesalahan jaringan atau server: $e');
+        throw Exception(errorBody['message'] ?? errorBody['error'] ?? 'Gagal mengupload data anak (Status ${response.statusCode})');
+      }
+    } catch (e) {
+      print('Terjadi kesalahan saat mengupload data anak: $e');
+      throw Exception('$e');
     }
   }
 

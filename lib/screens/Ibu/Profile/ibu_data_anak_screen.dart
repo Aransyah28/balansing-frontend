@@ -144,17 +144,18 @@ class _IbuDataAnakScreenState extends State<IbuDataAnakScreen> {
                     itemCount: profileProvider.daftarAnak.length,
                     itemBuilder: (context, index) {
                       final anak = profileProvider.daftarAnak[index];
+                      // Berikan nilai default aman jika terjadi field null dari backend
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
                         child: ChildCard(
-                          id: anak['id'],
-                          nama: anak['nama'],
-                          usia: _hitungUsia(anak['usia']),
-                          beratBadan: (anak['beratBadan'] as num).toDouble(), 
-                          tinggiBadan: (anak['tinggiBadan'] as num).toDouble(),
-                          anemia: anak['anemia'],
-                          stunting: anak['stunting'],
-                          jenisKelamin: anak['jenisKelamin'],
+                          id: anak['id']?.toString(),
+                          nama: anak['nama']?.toString() ?? 'Tanpa Nama',
+                          usia: _hitungUsia(anak['usia']?.toString() ?? DateTime.now().toIso8601String()),
+                          beratBadan: (anak['beratBadan'] ?? 0).toDouble(), 
+                          tinggiBadan: (anak['tinggiBadan'] ?? 0).toDouble(),
+                          anemia: anak['anemia'] ?? false,
+                          stunting: anak['stunting']?.toString() ?? 'Sehat',
+                          jenisKelamin: anak['jenisKelamin']?.toString() ?? 'Laki-laki',
                         ),
                       );
                     },

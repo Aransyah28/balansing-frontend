@@ -105,12 +105,19 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future<void> fetchProfile(String email) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
     try {
       final Map<String, dynamic> profileData = await _ibuServices.getIbu(email);
       _ibuProfile = Ibu.fromJson(profileData);
-      notifyListeners();
     } catch (e) {
       print('Gagal mengambil data profil: $e');
+      _errorMessage = e.toString().replaceFirst('Exception: ', '');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 }
