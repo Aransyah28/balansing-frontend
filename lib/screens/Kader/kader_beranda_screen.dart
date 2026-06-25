@@ -138,10 +138,20 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
         late String dateData;
 
-        if (month + count > 12) {
-          dateData = "$month/$year - ${month + count - 12}/${year + 1}";
+        int startMonth = month - count + 1;
+        int startYear = year;
+        
+        if (startMonth <= 0) {
+          startMonth += 12;
+          startYear -= 1;
+        }
+
+        if (startMonth == month && startYear == year) {
+          dateData = "$month / $year";
+        } else if (startYear != year) {
+          dateData = "$startMonth/$startYear - $month/$year";
         } else {
-          dateData = "$month-${month + count} / $year";
+          dateData = "$startMonth - $month / $year";
         }
 
         double findHighestValue(List<AgeGroupData> data) {
@@ -256,30 +266,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: height * 0.005),
-                        SizedBox(
-                            height: height * 0.03,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/images/circle-alert.png',
-                                  width: height * 0.02,
-                                  height: height * 0.02,
-                                  fit: BoxFit.cover,
-                                ),
-                                SizedBox(width: width * 0.01),
-                                Text(
-                                  "Pengecekan selanjutnya: 4 Juli 2025",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: height * 0.013,
-                                    fontWeight: FontWeight.w400,
-                                    color: const Color(0xFF94A3B8),
-                                  ),
-                                ),
-                              ],
-                            ))
+
                       ],
                     ),
                   ),
