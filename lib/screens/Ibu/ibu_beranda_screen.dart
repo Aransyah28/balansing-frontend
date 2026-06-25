@@ -9,9 +9,6 @@ import 'package:balansing/providers/IbuProvider.dart';
 import 'package:balansing/services/ibu_services.dart';
 import 'package:balansing/models/user_model.dart';
 
-// Pastikan GrowthData diimpor dengan benar
-import 'package:balansing/card/DashboardChart.dart' show GrowthData;
-
 class IbuBerandaScreen extends StatefulWidget {
   const IbuBerandaScreen({super.key});
 
