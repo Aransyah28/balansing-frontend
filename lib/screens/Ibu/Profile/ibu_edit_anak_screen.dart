@@ -896,7 +896,7 @@ class _IbuEditAnakScreenState extends State<IbuEditAnakScreen> {
                                       _DeleteAnak(id!);
                                     },
                                     child: Text(
-                                      'Ya, Kembali',
+                                      'Ya, Hapus',
                                       style: GoogleFonts.poppins(
                                           color: Colors.red,
                                           fontSize: width * 0.035,

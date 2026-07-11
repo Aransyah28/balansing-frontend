@@ -281,6 +281,28 @@ class _EditRecapStateI extends State<EditRecapI> {
       }
     }
 
+    // Validasi maksimal 5 tahun (60 bulan)
+    if (years > 5 || (years == 5 && months > 0)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Umur anak tidak boleh lebih dari 5 tahun.',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      setState(() {
+        _selectedBirthDate = null;
+        _tahunController.clear();
+        _bulanController.clear();
+        _anakKader.umurTahun = null;
+        _anakKader.umurBulan = null;
+      });
+      return;
+    }
+
     setState(() {
       _tahunController.text = years.toString();
       _bulanController.text = months.toString();
@@ -937,7 +959,7 @@ class _EditRecapStateI extends State<EditRecapI> {
                                       _DeleteAnak(id!);
                                     },
                                     child: Text(
-                                      'Ya, Kembali',
+                                      'Ya, Hapus',
                                       style: GoogleFonts.poppins(
                                           color: Colors.red,
                                           fontSize: width * 0.035,

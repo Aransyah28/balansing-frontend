@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:balansing/services/ibu_services.dart';
 import 'package:balansing/card/ResultAnakCard.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:provider/provider.dart';
+import 'package:balansing/providers/IbuProvider.dart';
 
 class IbuCekIIScreen extends StatefulWidget {
   final String id;
@@ -560,6 +562,10 @@ Jika Anda melihat tanda-tanda ini, segera lakukan pengukuran dan konsultasikan d
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
+                        // REFRESH DATA DASHBOARD: Tarik ulang data dari database yang sudah berisi rekomendasi AI
+                        Provider.of<DashboardIbuProvider>(context, listen: false)
+                            .fetchDashboardData(widget.idAnak);
+                            
                         // Navigate to the next screen and wait for it to return
                         Navigator.pop(context);
                       },

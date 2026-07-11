@@ -69,6 +69,15 @@ class _IbuCekIScreenState extends State<IbuCekIScreen> {
     super.initState();
     _fetchChildData();
     _selectedDate = DateTime.now();
+    _bbController.addListener(() => setState(() {}));
+    _tbController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _bbController.dispose();
+    _tbController.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchChildData() async {
@@ -108,18 +117,18 @@ class _IbuCekIScreenState extends State<IbuCekIScreen> {
 
   String _calculateAge(DateTime birthDate) {
     final now = DateTime.now();
-    int years = now.year - birthDate.year;
-    int months = now.month - birthDate.month;
+    int totalMonths = (now.year - birthDate.year) * 12 + (now.month - birthDate.month);
 
-    if (months < 0 || (months == 0 && now.day < birthDate.day)) {
-      years--;
-      months += 12;
+    if (now.day < birthDate.day) {
+      totalMonths--;
     }
 
-    if (years > 0) {
-      return '$years tahun $months bulan';
+    if (totalMonths >= 12) {
+      int years = totalMonths ~/ 12;
+      int months = totalMonths % 12;
+      return '$years tahun ${months > 0 ? '$months bulan' : ''}'.trim();
     } else {
-      return '$months bulan';
+      return '${totalMonths < 0 ? 0 : totalMonths} bulan';
     }
   }
 
@@ -325,8 +334,10 @@ class _IbuCekIScreenState extends State<IbuCekIScreen> {
   }
 
   bool get ButtonActive {
-    // Mengembalikan true jika semua gejala sudah diisi
-    return _konjungtivitaNormal != null &&
+    // Mengembalikan true jika semua data sudah diisi
+    return _bbController.text.isNotEmpty &&
+        _tbController.text.isNotEmpty &&
+        _konjungtivitaNormal != null &&
         _kukuBersih != null &&
         _tampakLemas != null &&
         _tampakPucat != null &&
@@ -895,12 +906,14 @@ class _IbuCekIScreenState extends State<IbuCekIScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: ButtonActive
-                            ? () async {
-                                print("Tombol Selanjutnya ditekan!");
-                                _submitRecapData(context);
-                              }
-                            : null,
+                        onPressed: () async {
+                          if (!ButtonActive) {
+                            _showSnackbar("Harap lengkapi BB, TB, dan semua opsi gejala terlebih dahulu.", Colors.red, Colors.white);
+                            return;
+                          }
+                          print("Tombol Selanjutnya ditekan!");
+                          _submitRecapData(context);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ButtonActive
                               ? const Color(0xFF9FC86A)
