@@ -124,7 +124,7 @@ class _IbuCekIScreenState extends State<IbuCekIScreen> {
     }
 
     if (totalMonths >= 12) {
-      int years = (totalMonths / 12).floor();
+      int years = totalMonths ~/ 12;
       int months = totalMonths % 12;
       return '$years tahun ${months > 0 ? '$months bulan' : ''}'.trim();
     } else {

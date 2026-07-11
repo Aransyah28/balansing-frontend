@@ -580,7 +580,7 @@ class _IbuBerandaScreenState extends State<IbuBerandaScreen> {
         ),
         SizedBox(height: height * 0.01),
         GrowthIndicatorCard(
-          title: 'Tinggi Badan menurut Umur (WFA)',
+          title: 'Tinggi Badan menurut Umur (HFA)',
           value: '${data.tb.toStringAsFixed(2)} cm',
           zScore: (data.umur == 0 ? 0.0 : (data.tb / data.umur)).toStringAsFixed(2),
           status: 'Tinggi badan normal',
