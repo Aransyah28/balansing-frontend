@@ -124,7 +124,7 @@ Future<String> resetPassword(String email) async {
         'email': email,
         'password': password,
       }),
-    ).timeout(const Duration(seconds: 10));
+    ).timeout(const Duration(seconds: 15));
 
     // --- Inisialisasi Fallback Pesan Error ---
     String errorMessage = 'Terjadi kesalahan tak terduga di sisi aplikasi. Silakan coba lagi.';
