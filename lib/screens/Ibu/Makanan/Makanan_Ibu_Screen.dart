@@ -116,8 +116,35 @@ class _IbuMakananScreenState extends State<MakananIbuScreen> {
     });
 
     try {
-      final List<dynamic> labels =
+      final List<dynamic> rawLabels =
           await IbuServices().cekMakanan(_capturedImage!.path);
+
+      // Konversi hasil AI ke Kategori Gizi (Mendukung AI Baru & AI Lama)
+      final Set<String> mappedLabels = {};
+      for (var label in rawLabels) {
+        String l = label.toString().toLowerCase().trim();
+        
+        // 1. Dukungan AI Lama: Jika output AI sudah berupa nama kategori 
+        if (l == "daging" || l == "makanan_berpati" || l == "telur" || 
+            l == "kacang_legume" || l == "produk_susu" || l == "buah_sayur_lainnya") {
+          mappedLabels.add(l);
+        } else if (l == "buah_sayur_vita") {
+          // Tangani masalah case-sensitive pada UI map ("buah_sayur_vitA")
+          mappedLabels.add("buah_sayur_vitA");
+        } 
+        // 2. Dukungan AI Baru: Mapping 12 class per-item ke kategori
+        else if (l == "ayam" || l == "sapi") {
+          mappedLabels.add("daging");
+        } else if (l == "nasi putih" || l == "nasi goreng" || l == "nasi_kuning") {
+          mappedLabels.add("makanan_berpati");
+        } else if (l == "tahu" || l == "tempe") {
+          mappedLabels.add("kacang_legume");
+        } else if (l == "telur_utuh" || l == "telur_dadar") {
+          mappedLabels.add("telur");
+        }
+      }
+
+      final List<dynamic> labels = mappedLabels.toList();
 
       // Check if the list is empty to determine which dialog to show
       if (labels.isEmpty) {
