@@ -21,7 +21,7 @@ Future<List<dynamic>> getMonthlyRecap(String id, int month, int year) async {
         'Authorization': 'Bearer ${User.instance.token}',
       },
       body: jsonEncode({'ibuId': id, 'month': month, 'year': year}),
-    );
+    ).timeout(const Duration(seconds: 15), onTimeout: () => throw Exception('Koneksi internet lambat atau server tidak merespons. Silakan coba lagi.'));
 
     if (response.statusCode == 200) {
       // Dekode body sebagai List<dynamic> karena API mengembalikan array
@@ -46,7 +46,7 @@ Future<List<Map<String, dynamic>>> getArticle() async {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${User.instance.token}',
       }
-    );
+    ).timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       // Mengonversi response.body ke List<Map<String, dynamic>>
@@ -71,7 +71,7 @@ Future<Map<String, dynamic>> getDetailArticle(String id) async {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${User.instance.token}',
         }
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         // Mengonversi response.body ke satu Map
@@ -139,7 +139,7 @@ Future<List<dynamic>> cekMakanan(String filePath) async {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${User.instance.token}',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         // Melakukan jsonDecode di sini
@@ -163,7 +163,7 @@ Future<List<dynamic>> cekMakanan(String filePath) async {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${User.instance.token}',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
@@ -192,7 +192,7 @@ Future<List<dynamic>> cekMakanan(String filePath) async {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${User.instance.token}',
       },
-    );
+    ).timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       // Decode body sebagai Map<String, dynamic> karena API mengembalikan objek tunggal
@@ -217,7 +217,7 @@ Future<Map<String, dynamic>> getDataDashboard(String id) async {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${User.instance.token}',
       },
-    );
+    ).timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       // Decode body sebagai Map<String, dynamic> karena API mengembalikan objek tunggal
@@ -242,7 +242,7 @@ Future<Map<String, dynamic>> getDashboardAnak(String id) async {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${User.instance.token}',
       },
-    );
+    ).timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       // Decode body sebagai Map<String, dynamic> karena API mengembalikan objek tunggal
@@ -267,7 +267,7 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${User.instance.token}',
       },
-    );
+    ).timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       // Decode body sebagai Map<String, dynamic> karena API mengembalikan objek tunggal
@@ -293,7 +293,7 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
           'Authorization': 'Bearer ${User.instance.token}',
         },
         body: jsonEncode(data),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 201) {
         return jsonDecode(response.body);
@@ -317,7 +317,7 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
           'Authorization': 'Bearer ${User.instance.token}',
         },
         body: jsonEncode(data),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 201) {
         return jsonDecode(response.body);
@@ -339,7 +339,7 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${User.instance.token}',
       },
-    );
+    ).timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       // Decode body sebagai Map<String, dynamic> karena API mengembalikan objek tunggal
@@ -365,7 +365,7 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
           'Authorization': 'Bearer ${User.instance.token}',
         },
         body: jsonEncode(data),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 201) {
         return jsonDecode(response.body);
@@ -390,7 +390,7 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
         body: jsonEncode({
           "DDS": dds, 
         }),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 201) {
         return jsonDecode(response.body);
@@ -419,7 +419,7 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
           "quizResult": quizHistory, // <- ini penting!
           "email": emailUser,
         }),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       print(jsonEncode({
           "quizResult": quizHistory, // <- ini penting!
@@ -448,7 +448,7 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${User.instance.token}',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 201) {
         return jsonDecode(response.body);
@@ -471,7 +471,7 @@ Future<Map<String, dynamic>> getDetailRecap(String id) async {
           'Authorization': 'Bearer ${User.instance.token}',
         },
         body: jsonEncode(data),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       print(jsonEncode(data)); // Debugging: cetak data yang dikirim
 

@@ -18,7 +18,7 @@ class KaderServices {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${User.instance.token}',
         },
-      );
+      ).timeout(const Duration(seconds: 15), onTimeout: () => throw Exception('Koneksi internet lambat atau server tidak merespons. Silakan coba lagi.'));
 
       if (response.statusCode == 200) {
         // Melakukan jsonDecode di sini
@@ -42,7 +42,7 @@ class KaderServices {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${User.instance.token}',
       },
-    );
+    ).timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = jsonDecode(response.body);
@@ -66,7 +66,7 @@ Future<List<Map<String, dynamic>>> deleteAnakKader(String id) async {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${User.instance.token}',
       },
-    );
+    ).timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = jsonDecode(response.body);
@@ -93,7 +93,7 @@ Future<List<Map<String, dynamic>>> deleteAnakKader(String id) async {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${User.instance.token}',
         },
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         // Ubah tipe data dari `Map` menjadi `List<dynamic>`
@@ -125,7 +125,7 @@ Future<List<Map<String, dynamic>>> deleteAnakKader(String id) async {
         'year': year,
         'count': count,
       }),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         // Ubah tipe data dari `Map` menjadi `List<dynamic>`
@@ -156,7 +156,7 @@ Future<List<Map<String, dynamic>>> deleteAnakKader(String id) async {
           'oldPassword': oldPassword,
           'newPassword': newPassword,
         }),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
@@ -180,7 +180,7 @@ Future<List<Map<String, dynamic>>> deleteAnakKader(String id) async {
           'Authorization': 'Bearer ${User.instance.token}',
         },
         body: jsonEncode(data),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 201) {
         return jsonDecode(response.body);
@@ -204,7 +204,7 @@ Future<List<Map<String, dynamic>>> deleteAnakKader(String id) async {
           'Authorization': 'Bearer ${User.instance.token}',
         },
         body: jsonEncode(data),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 201) {
         return jsonDecode(response.body);
@@ -227,7 +227,7 @@ Future<List<Map<String, dynamic>>> deleteAnakKader(String id) async {
           'Authorization': 'Bearer ${User.instance.token}',
         },
         body: jsonEncode(data),
-      );
+      ).timeout(const Duration(seconds: 15));
 
       print(jsonEncode(data)); // Debugging: cetak data yang dikirim
 
