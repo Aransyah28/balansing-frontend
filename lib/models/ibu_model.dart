@@ -46,17 +46,17 @@ class Ibu {
 
   factory Ibu.fromJson(Map<String, dynamic> json) {
     return Ibu(
-        email: json['email'] as String,
-        password: json['password'] as String,
-        noTelp: json['noTelp'] as String,
-        namaIbu: json['namaIbu'] as String,
-        usia: json['usia'] as int,
-        provinsi: json['provinsi'] as String,
-        kota: json['kota'] as String,
-        kecamatan: json['kecamatan'] as String,
-        kelurahan: json['kelurahan'] as String,
-        rt: json['rt'] as String,
-        rw: json['rw'] as String,
-        alamat: json['alamat'] as String);
+        email: json['email']?.toString() ?? '',
+        password: json['password']?.toString() ?? '',
+        noTelp: json['noTelp']?.toString() ?? '',
+        namaIbu: (json['namaIbu'] ?? json['nama'])?.toString() ?? '',
+        usia: json['usia'] is int ? json['usia'] : int.tryParse(json['usia']?.toString() ?? '0') ?? 0,
+        provinsi: json['provinsi']?.toString() ?? '',
+        kota: json['kota']?.toString() ?? '',
+        kecamatan: json['kecamatan']?.toString() ?? '',
+        kelurahan: json['kelurahan']?.toString() ?? '',
+        rt: json['rt']?.toString() ?? '',
+        rw: json['rw']?.toString() ?? '',
+        alamat: json['alamat']?.toString() ?? '');
   }
 }

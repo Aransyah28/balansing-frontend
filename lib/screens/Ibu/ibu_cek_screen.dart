@@ -54,7 +54,7 @@ class _IbuCekScreenState extends State<IbuCekScreen> {
       Map<String, dynamic> data = await _ibuServices.getIbu(User.instance.email);
 
       setState(() {
-        cekDate = data['cekAnak'] ?? false;
+        cekDate = data['cekAnak'] ?? true;
         quizDone = data['sanitasi'] ?? false;
         datenext = data['jadwalResetBerikutnya'] ?? "";
         datebefore = data['terakhirDijalankan'] ?? "";
@@ -72,6 +72,8 @@ class _IbuCekScreenState extends State<IbuCekScreen> {
   }
 
   String formatTanggal(String dateString) {
+    if (dateString.isEmpty) return "-";
+    
     try {
       // 1. Konversi String menjadi objek DateTime.
       // Metode ini secara cerdas menangani format YYYY-MM-DD HH:MM:SS
@@ -94,6 +96,28 @@ class _IbuCekScreenState extends State<IbuCekScreen> {
     }
   }
 
+  String getCountdownText(String dateString) {
+    if (dateString.isEmpty) return "";
+    try {
+      DateTime targetDate = DateTime.parse(dateString);
+      DateTime now = DateTime.now();
+      DateTime today = DateTime(now.year, now.month, now.day);
+      DateTime target = DateTime(targetDate.year, targetDate.month, targetDate.day);
+      
+      int difference = target.difference(today).inDays;
+      
+      if (difference > 0) {
+        return "($difference hari dari sekarang)";
+      } else if (difference == 0) {
+        return "(Hari ini)";
+      } else {
+        return "(Terlewat ${-difference} hari)";
+      }
+    } catch (e) {
+      return "";
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -106,18 +130,18 @@ class _IbuCekScreenState extends State<IbuCekScreen> {
   // Fungsi untuk menghitung umur
   String _calculateAge(DateTime birthDate) {
     final now = DateTime.now();
-    int years = now.year - birthDate.year;
-    int months = now.month - birthDate.month;
+    int totalMonths = (now.year - birthDate.year) * 12 + (now.month - birthDate.month);
 
-    if (months < 0 || (months == 0 && now.day < birthDate.day)) {
-      years--;
-      months += 12;
+    if (now.day < birthDate.day) {
+      totalMonths--;
     }
 
-    if (years > 0) {
-      return '$years tahun $months bulan';
+    if (totalMonths >= 12) {
+      int years = (totalMonths / 12).floor();
+      int months = totalMonths % 12;
+      return '$years tahun ${months > 0 ? '$months bulan' : ''}'.trim();
     } else {
-      return '$months bulan';
+      return '${totalMonths < 0 ? 0 : totalMonths} bulan';
     }
   }
 
@@ -173,12 +197,14 @@ class _IbuCekScreenState extends State<IbuCekScreen> {
                           Row(
                             children: [
                               SizedBox(width: width * 0.07), // Untuk perataan
-                              Text(
-                                "Pemeriksaan selanjutnya: ${formatTanggal(datenext)}",
-                                style: GoogleFonts.poppins(
-                                  fontSize: width * 0.03,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFFEAB308),
+                              Expanded(
+                                child: Text(
+                                  "Pemeriksaan selanjutnya: ${formatTanggal(datenext)} ${getCountdownText(datenext)}",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: width * 0.03,
+                                    fontWeight: FontWeight.w400,
+                                    color: const Color(0xFFEAB308),
+                                  ),
                                 ),
                               ),
                             ],

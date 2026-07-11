@@ -168,7 +168,7 @@ class GrowthChartCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(width * 0.04),
+      padding: EdgeInsets.only(top: width * 0.04),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(width * 0.04),
@@ -302,13 +302,13 @@ class GrowthChartCard extends StatelessWidget {
           ),
           SizedBox(height: height * 0.02),
           SizedBox(
-            height: height * 0.15,
+            height: height * 0.22,
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
                   Container(
-                    height: height * 0.12,
+                    height: height * 0.18,
                     width: width * 0.75,
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
@@ -382,7 +382,7 @@ class GrowthChartCard extends StatelessWidget {
                   SizedBox(width: width * 0.04),
                   Container(
                     width: width * 0.75,
-                    height: height * 0.12,
+                    height: height * 0.18,
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
