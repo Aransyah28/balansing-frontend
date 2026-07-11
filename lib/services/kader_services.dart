@@ -18,7 +18,7 @@ class KaderServices {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${User.instance.token}',
         },
-      ).timeout(const Duration(seconds: 15));
+      ).timeout(const Duration(seconds: 15), onTimeout: () => throw Exception('Koneksi internet lambat atau server tidak merespons. Silakan coba lagi.'));
 
       if (response.statusCode == 200) {
         // Melakukan jsonDecode di sini
