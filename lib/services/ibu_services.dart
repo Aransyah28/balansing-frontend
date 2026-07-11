@@ -21,7 +21,7 @@ Future<List<dynamic>> getMonthlyRecap(String id, int month, int year) async {
         'Authorization': 'Bearer ${User.instance.token}',
       },
       body: jsonEncode({'ibuId': id, 'month': month, 'year': year}),
-    ).timeout(const Duration(seconds: 15));
+    ).timeout(const Duration(seconds: 15), onTimeout: () => throw Exception('Koneksi internet lambat atau server tidak merespons. Silakan coba lagi.'));
 
     if (response.statusCode == 200) {
       // Dekode body sebagai List<dynamic> karena API mengembalikan array
